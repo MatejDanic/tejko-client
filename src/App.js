@@ -4,6 +4,7 @@ import history from "./history/history";
 
 import NavigationBar from './components/navigation/navigation-bar.component';
 import './App.css';
+import UserList from './components/admin/user-list.component';
 
 
 export default class App extends Component {
@@ -18,7 +19,7 @@ export default class App extends Component {
           <Switch>
             <Route exact path="/" />
             <Route exact path="/games" />
-            <Route exact path="/users" />
+            <Route exact path="/users" component={UserList}/>
             <Route exact path="/scores" />
           </Switch>
 
