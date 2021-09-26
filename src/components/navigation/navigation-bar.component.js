@@ -7,9 +7,7 @@ export default class NavigationBar extends Component {
         return (
             <div className="navigation-bar">
                 <a href="/">Home</a>
-                <a href="/games">Games</a>
-                <a href="/users">Users</a>
-                <a href="/scores">Scores</a>
+                <a href="/admin">Admin</a>
             </div>
         );
     }
