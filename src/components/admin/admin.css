@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.container-padding {
+  padding: 5%;
+}
+
+.table-container {
+  width: 100%;
+}
+
+.table-custom {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.table-custom th {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+tr:nth-child(even) {
+  background-color: lightskyblue;
+}
+
+.table-custom th:first-child {
+  border-left: 0;
+}
+
+.table-custom th:last-child {
+  border-right: 0;
+}
+
+th {
+  background-color: lightseagreen;
+  color: white;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.admin-sidebar {
+  background-color: lightgray;
+}
+
+.admin-sidebar-element {
+  height: 5%;
+  width: 20vw;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+}
+
+.admin-sidebar-element:hover {
+  background-color: gray;
+}

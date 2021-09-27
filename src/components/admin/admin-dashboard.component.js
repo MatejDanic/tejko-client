@@ -1,10 +1,10 @@
 import { React, Component } from "react";
 
-export default class UserList extends Component {
+export default class AdminDashboard extends Component {
 
     render() {
         return (
-            <div>User Edit</div>
+            <div>Dashboard</div>
         );
     }
     

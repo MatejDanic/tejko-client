@@ -1,27 +1,32 @@
 import { React, Component } from 'react';
-import { Router, Switch, Route } from "react-router-dom";
-import history from "./history/history";
-
-import NavigationBar from './components/navigation/navigation-bar.component';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./components/home.component";
+import TopBar from './components/navigation/top-bar.component';
+import Admin from './components/admin/admin.component';
 import './App.css';
-import TejkoAdmin from './components/admin/tejko-admin.component';
 
 
 export default class App extends Component {
 
   render() {
-
     return (
-      <div>
-        <NavigationBar />
-        <Router history={history}>
-          <title>Tejko Games</title>
+      <Router>
+        <div className="top-bar-container">
+          <TopBar />
+        </div>
+        <div className="page-container">
           <Switch>
-            <Route exact path="/" />
-            <Route exact path="/admin" component={TejkoAdmin} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/games" component={Home} />
+            <Route exact path="/users" component={Home} />
+            <Route exact path="/scores" component={Home} />
+            <Route path="/admin" component={Admin} />
+            <Route exact path="/login" component={Home} />
+            <Route exact path="/register" component={Home} />
           </Switch>
-        </Router>
-      </div >
+        </div>
+      </Router >
     );
-  };
+  }
+
 }

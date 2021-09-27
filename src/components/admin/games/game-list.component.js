@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UserService from "../../../services/user.service";
+import GameService from "../../../services/game.service";
 import "../admin.css";
 
 
@@ -12,14 +12,15 @@ export default class UserList extends Component {
         super(props);
 
         this.state = {
-            users: []
+            games: []
         };
     }
 
     componentDidMount() {
-        UserService.getUsers()
-            .then(users => {
-                this.setState({ users });
+        GameService.getGames()
+            .then(games => {
+                console.log(games);
+                this.setState({ games });
             })
             .catch(error => {
                 console.error(error);
@@ -28,7 +29,7 @@ export default class UserList extends Component {
 
 
     render() {
-        let users = this.state.users;
+        let games = this.state.games;
         return (
             <div className="container">
                 <div className="table-container container-padding">
@@ -36,14 +37,16 @@ export default class UserList extends Component {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map(user =>
-                                <tr key={user.id}>
-                                    <td><Link to={"/admin/users/" + user.id}>{user.id}</Link></td>
-                                    <td>{user.username}</td>
+                            {games.map(game =>
+                                <tr key={game.id}>
+                                    <td><Link to={"/admin/games/" + game.id}>{game.id}</Link></td>
+                                    <td>{game.name}</td>
+                                    <td>{game.description}</td>
                                 </tr>
                             )}
                         </tbody>

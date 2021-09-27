@@ -51,7 +51,7 @@ export default class Login extends Component {
         let password = this.state.password;
         let messages = this.validateForm(username, password);
 
-        if (messages.length == 0) {
+        if (messages.length === 0) {
             let credentials = {}
             credentials.username = this.state.username;
             credentials.password = this.state.password;
@@ -94,7 +94,7 @@ export default class Login extends Component {
                     <div className="card-bottom">
                         <div>
                             Nemate račun?
-						</div>
+                        </div>
                         <div>
                             <button className="button button-register" onClick={() => this.props.history.push("/register")}>Registracija</button>
                         </div>
