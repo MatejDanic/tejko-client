@@ -27,7 +27,7 @@ export default class UserView extends Component {
     render() {
         let user = this.state.user;
         return (
-            <div className="container-padding">
+            <div>
                 <h2>User</h2>
                 <div>
                     <b>ID: </b>{user.id}

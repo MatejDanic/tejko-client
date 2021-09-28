@@ -31,28 +31,24 @@ export default class UserList extends Component {
     render() {
         let games = this.state.games;
         return (
-            <div className="container">
-                <div className="table-container container-padding">
-                    <table className="table-custom">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {games.map(game =>
-                                <tr key={game.id}>
-                                    <td><Link to={"/admin/games/" + game.id}>{game.id}</Link></td>
-                                    <td>{game.name}</td>
-                                    <td>{game.description}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table className="table-custom">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {games.map(game =>
+                        <tr key={game.id}>
+                            <td><Link to={"/admin/games/" + game.id}>{game.id}</Link></td>
+                            <td>{game.name}</td>
+                            <td>{game.description}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         );
     }
 

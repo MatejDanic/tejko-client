@@ -30,26 +30,22 @@ export default class UserList extends Component {
     render() {
         let users = this.state.users;
         return (
-            <div className="container">
-                <div className="table-container container-padding">
-                    <table className="table-custom">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map(user =>
-                                <tr key={user.id}>
-                                    <td><Link to={"/admin/users/" + user.id}>{user.id}</Link></td>
-                                    <td>{user.username}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table className="table-custom">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user =>
+                        <tr key={user.id}>
+                            <td><Link to={"/admin/users/" + user.id}>{user.id}</Link></td>
+                            <td>{user.username}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         );
     }
 

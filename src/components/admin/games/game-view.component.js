@@ -28,7 +28,7 @@ export default class GameView extends Component {
     render() {
         let game = this.state.game;
         return (
-            <div className="container-padding">
+            <div>
                 <h2>Game</h2>
                 <div>
                     <b>ID: </b>{game.id}

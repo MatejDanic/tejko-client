@@ -1,15 +1,19 @@
 .container {
   display: flex;
+  width: 100%;
   height: 100%;
-  width: 100%;
+  overflow: hidden;
 }
 
-.container-padding {
+.container-content {
+  width: 70%;
   padding: 5%;
+  height: 100%;
 }
 
-.table-container {
-  width: 100%;
+.container-sidebar {
+  height: 100%;
+  width: 30%;
 }
 
 .table-custom {
@@ -24,15 +28,25 @@
   border-right: 1px solid black;
 }
 
-tr:nth-child(even) {
-  background-color: lightskyblue;
+.table-custom tr {
+  height: 5vh;
+}
+
+.table-custom tr:hover {
+  background-color: #f6f6f6;
+}
+
+.table-custom tr:nth-child(even) {
+  background-color: #f5f5f5;
 }
 
 .table-custom th:first-child {
+  border-top-left-radius: 10px;
   border-left: 0;
 }
 
 .table-custom th:last-child {
+  border-top-right-radius: 10px;
   border-right: 0;
 }
 
@@ -47,20 +61,20 @@ a {
 }
 
 .admin-sidebar {
-  background-color: lightgray;
+  background-color: #111;
+  overflow-x: hidden;
+  padding: 20px;
+  height: 100%;
 }
 
 .admin-sidebar-element {
-  height: 5%;
-  width: 20vw;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: black;
+  width: 10vw;
+  font-size: x-large;
+  padding: 5%;
+  color: #818181;
+  display: block;
 }
 
 .admin-sidebar-element:hover {
-  background-color: gray;
+  color: #f1f1f1;
 }
