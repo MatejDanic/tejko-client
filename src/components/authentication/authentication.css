@@ -1,0 +1,88 @@
+.window {
+	border-radius: 10px;
+	background-color: lightgray;
+	max-width: 400px;
+	min-width: 300px;
+	width: 50%;
+	position: absolute;
+}
+
+.window-inner {
+	margin: 10%;
+}
+
+.window-top {
+	text-align: left;
+}
+
+.window-bottom {
+	padding-top: 20px;
+	text-align: center;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+.window-button-primary {
+	color: white;
+	padding: 2%;
+	width: 80%;
+	border-radius: 40px;
+	border: none;
+	font-size: large;
+	font-weight: medium;
+}
+
+.window-button-primary-login {
+	background: linear-gradient(green, darkgreen);
+}
+
+.window-button-primary-login:hover {
+	background: linear-gradient(darkgreen, green);
+}
+
+.window-button-primary-register {
+	background: linear-gradient(lightcoral, indianred);
+}
+
+.window-button-primary-register:hover {
+	background: linear-gradient(indianred, lightcoral);
+}
+
+.window-button-secondary {
+	border: none;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.window-button-secondary-login {
+	color: lightcoral;
+}
+
+.window-button-secondary-login:hover {
+	color: indianred;
+}
+
+.window-button-secondary-register {
+	color: green;
+}
+
+.window-button-secondary-register:hover {
+	color: darkgreen;
+}
+
+input {
+	margin-top: 5%;
+	margin-bottom: 5%;
+	width: 100%;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	background-color: transparent;
+}
+
+input[type]:focus {
+	outline: none;
+}

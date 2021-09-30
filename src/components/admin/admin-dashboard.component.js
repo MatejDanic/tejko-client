@@ -1,11 +1,14 @@
 import { React, Component } from "react";
+import { withRouter } from "react-router";
 
-export default class AdminDashboard extends Component {
+class AdminDashboard extends Component {
 
-    render() {
-        return (
-            <div>Dashboard</div>
-        );
-    }
-    
+	render() {
+		return (
+			<div>Dashboard</div>
+		);
+	}
+
 }
+
+export default withRouter(AdminDashboard);
