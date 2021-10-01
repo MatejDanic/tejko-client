@@ -1,52 +1,54 @@
 import React, { Component } from "react";
-// services
+import { withRouter } from "react-router";
 import AuthService from "../../services/auth.service";
 import Popup from "../popup/popup.component";
-// styles
-import "./auth.css";
+import "./authentication.css";
 
-export default class Register extends Component {
+class Register extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			username: "",
 			password: "",
+			repeatPassword: "",
 			successful: false,
 			messages: []
 		};
 
 		this.handleRegister = this.handleRegister.bind(this);
-		this.onChangeUsername = this.onChangeUsername.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
+		this.handleChangeUsername = this.handleChangeUsername.bind(this);
+		this.handleChangePassword = this.handleChangePassword.bind(this);
+		this.onChangeRepeatPassword = this.onChangeRepeatPassword.bind(this);
 		this.togglePopup = this.togglePopup.bind(this);
 	}
 
-	onChangeUsername(e) {
+	handleChangeUsername(event) {
 		this.setState({
-			username: e.target.value
+			username: event.target.value
 		});
 	}
 
-	onChangePassword(e) {
+	handleChangePassword(event) {
 		this.setState({
-			password: e.target.value
+			password: event.target.value
+		});
+	}
+
+	onChangeRepeatPassword(event) {
+		this.setState({
+			repeatPassword: event.target.value
 		});
 	}
 
 	togglePopup(messages) {
-		let username = "";
-		let password = "";
-		this.setState({ showPopup: !this.state.showPopup, messages, username, password });
+		this.setState({ showPopup: !this.state.showPopup, messages });
 	}
 
-	redirectToLogin() {
-		this.props.history.push("/login")
-    }
-    
 	handleRegister() {
 		let username = this.state.username;
 		let password = this.state.password;
+		let repeatPassword = this.state.repeatPassword;
 		let messages = [];
 		if (!username) {
 			messages.push("Korisničko ime je obavezno!");
@@ -54,64 +56,77 @@ export default class Register extends Component {
 		if (!password) {
 			messages.push("Lozinka je obavezna!");
 		}
-		if (messages.length == 0) {
+		if (repeatPassword !== password) {
+			messages.push("Lozinke su različite!");
+		}
+		if (messages.length === 0) {
 			let credentials = {}
 			credentials.username = this.state.username;
-            credentials.password = this.state.password;
-            AuthService.register(JSON.stringify(credentials))
-                .then(response => {
-                    let messages = [];
-                    messages.push(response.message);
-                    this.togglePopup(messages);
-                    setTimeout(() => {this.props.history.push("/login")}, 1000);
-                })
-                .catch(response => {
-                    let messages = [];
-                    if (response.status && response.error) messages.push(response.status + " " + response.error);
-                    if (response.message) messages.push(response.message);
-                    if (response.errors) {
-                        for (let i in response.errors) {
-                            messages.push(response.errors[i].defaultMessage);
-                        }
-                    }
-                    this.togglePopup(messages);
-                });
+			credentials.password = this.state.password;
+			AuthService.register(JSON.stringify(credentials))
+				.then(response => {
+					if (response.type === "DEFAULT") {
+						let messages = [];
+						messages.push(response.subject);
+						messages.push(response.body);
+						this.togglePopup(messages);
+						setTimeout(() => { this.props.history.push("/login") }, 1000);
+					} else {
+						console.log(response);
+					}
+				})
+				.catch(response => {
+					if (response.type === "ERROR") {
+						let messages = [];
+						messages.push(response.subject);
+						messages.push(response.body);
+						this.togglePopup(messages);
+					} else {
+						console.error(response);
+					}
+				});
 		} else {
 			this.togglePopup(messages);
 		}
 	}
 
 	render() {
-        let username = this.state.username;
-        let password = this.state.password;
+		let username = this.state.username;
+		let password = this.state.password;
+		let repeatPassword = this.state.repeatPassword;
 		let messages = this.state.messages;
 		return (
-			<div className="auth">
-				<div className="card">
-					<div className="card-top">
-						<form>
-							<div>
-								<label>Korisničko ime</label>
-								<input type="text" placeholder="Unesite korisničko ime" autoComplete="on" onChange={this.onChangeUsername} value={username} />
-							</div>
-							<div>
-								<label>Lozinka</label>
-								<input type="password" placeholder="Unesite lozinku" autoComplete="on" onChange={this.onChangePassword} value={password}/>
-							</div>
-						</form>
-						<button className="button button-register" onClick={this.handleRegister}>Registracija</button>
+			<div className="window">
+				<div className="window-inner">
+					<div className="window-top">
+						<div>
+							<div>Korisničko ime</div>
+							<input type="text" placeholder="Unesite korisničko ime" name="username" id="username" autoComplete="username" onChange={(event) => this.handleChangeUsername(event)} value={username} />
+						</div>
+						<div>
+							<div>Lozinka</div>
+							<input type="password" placeholder="Unesite lozinku" name="password" id="password" onChange={(event) => this.handleChangePassword(event)} value={password} />
+						</div>
+						<div>
+							<div>Ponovi lozinku</div>
+							<input type="password" placeholder="Unesite lozinku" name="repeatPassword" id="repeatPassword" onChange={(event) => this.onChangeRepeatPassword(event)} value={repeatPassword} />
+						</div>
 					</div>
-					<div className="card-bottom">
+					<button className="window-button-primary window-button-primary-register" onClick={() => this.handleRegister()}>Register</button>
+
+					<div className="window-bottom">
 						<div>
 							Imate račun?
 						</div>
 						<div>
-							<button className="button button-login" onClick={() => this.props.history.push("/login")}>Prijava</button>
+							<button className="window-button-secondary window-button-secondary-register" onClick={() => this.props.history.push("/login")}>Login</button>
 						</div>
 					</div>
-					{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 				</div>
+				{this.state.showPopup && <Popup text={messages} onOk={() => this.togglePopup()} />}
 			</div>
 		);
 	}
 }
+
+export default withRouter(Register);
