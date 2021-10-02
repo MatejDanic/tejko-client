@@ -32,7 +32,7 @@ class TopBar extends Component {
 						<Link to="/admin" className="top-bar-element">Admin</Link>
 					}
 					{currentUser ?
-						<div className="top-bar-element" onClick={() => this.handleLogout()}>Logout</div> :
+						<div className="top-bar-element" onClick={this.handleLogout}>Logout</div> :
 						<Link to="/login" className="top-bar-element">Login</Link>
 					}
 					{!currentUser &&

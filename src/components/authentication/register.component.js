@@ -105,14 +105,14 @@ class Register extends Component {
 						</div>
 						<div>
 							<div>Lozinka</div>
-							<input type="password" placeholder="Unesite lozinku" name="password" id="password" onChange={(event) => this.handleChangePassword(event)} value={password} />
+							<input type="password" placeholder="Unesite lozinku" name="password" id="password" onChange={this.handleChangePassword} value={password} />
 						</div>
 						<div>
 							<div>Ponovi lozinku</div>
-							<input type="password" placeholder="Unesite lozinku" name="repeatPassword" id="repeatPassword" onChange={(event) => this.onChangeRepeatPassword(event)} value={repeatPassword} />
+							<input type="password" placeholder="Unesite lozinku" name="repeatPassword" id="repeatPassword" onChange={this.onChangeRepeatPassword} value={repeatPassword} />
 						</div>
 					</div>
-					<button className="window-button-primary window-button-primary-register" onClick={() => this.handleRegister()}>Register</button>
+					<button className="window-button-primary window-button-primary-register" onClick={this.handleRegister}>Register</button>
 
 					<div className="window-bottom">
 						<div>
@@ -123,7 +123,7 @@ class Register extends Component {
 						</div>
 					</div>
 				</div>
-				{this.state.showPopup && <Popup text={messages} onOk={() => this.togglePopup()} />}
+				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 			</div>
 		);
 	}

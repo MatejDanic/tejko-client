@@ -49,10 +49,10 @@ class AdminDatatableCell extends Component {
 		let isEditing = this.state.isEditing;
 
 		return (
-			<td>
+			<td onClick={this.handleClick}>
 				{isEditing && typeof cellValue != "boolean" ?
 					<input className="admin-input" value={cellValueNew} onChange={(event) => this.handleChange(event)}></input> :
-					<div onClick={() => this.handleClick()} className="container-admin-input">
+					<div className="container-admin-input">
 						{(typeof cellValue == "boolean") ?
 							<input type="checkbox" className="admin-input" checked={cellValue} onChange={() => this.setState({ cellValue: !cellValue })}></input> : cellValue}</div>}
 			</td>

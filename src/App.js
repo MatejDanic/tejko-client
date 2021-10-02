@@ -55,7 +55,7 @@ export default class App extends Component {
 						<Route exact path="/users" component={Home} />
 						<Route exact path="/scores" component={Home} />
 						<Route path="/admin" component={Admin} />
-						<Route exact path="/login" component={() => <Login onLogin={() => this.handleLogin()} />} />
+						<Route exact path="/login" component={() => <Login onLogin={this.handleLogin} />} />
 						<Route exact path="/register" component={Register} />
 					</Switch>
 				</div>
