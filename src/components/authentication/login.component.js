@@ -62,8 +62,12 @@ class Login extends Component {
 			credentials.password = this.state.password;
 			AuthService.login(JSON.stringify(credentials))
 				.then(response => {
-					this.props.onLogin(JSON.stringify(response));
-					this.props.history.push("/");
+					if (response) {
+						this.props.onLogin(JSON.stringify(response));
+						this.props.history.push("/");
+					} else {
+						console.error(response);
+					}
 				})
 				.catch(response => {
 					if (response.type === "ERROR") {
