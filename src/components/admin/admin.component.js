@@ -19,19 +19,19 @@ class Admin extends Component {
 				<div className="container-content">
 					<Switch>
 						<Route exact path="/admin" component={AdminDashboard} />
-						<Route exact path="/admin/games" component={AdminDatable} />
+						<Route exact path="/admin/games" component={() => <AdminDatable object={"games"} />} />
 						<Route exact path="/admin/games/:id" component={AdminData} />
-						<Route exact path="/admin/scores" component={AdminDatable} />
+						<Route exact path="/admin/scores" component={() => <AdminDatable object={"scores"} />} />
 						<Route exact path="/admin/scores/:id" component={AdminData} />
-						<Route exact path="/admin/users" component={AdminDatable} />
+						<Route exact path="/admin/users" component={() => <AdminDatable object={"users"} />} />
 						<Route exact path="/admin/users/:id" component={AdminData} />
-						<Route exact path="/admin/roles" component={AdminDatable} />
+						<Route exact path="/admin/roles" component={() => <AdminDatable object={"roles"} />} />
 						<Route exact path="/admin/roles/:id" component={AdminData} />
-						<Route exact path="/admin/yambs" component={AdminDatable} />
+						<Route exact path="/admin/yambs" component={() => <AdminDatable object={"yambs"} />} />
 						<Route exact path="/admin/yambs/:id" component={AdminData} />
-						<Route exact path="/admin/challenges" component={AdminDatable} />
+						<Route exact path="/admin/challenges" component={() => <AdminDatable object={"challenges"} />} />
 						<Route exact path="/admin/challenges/:id" component={AdminData} />
-						<Route exact path="/admin/errors" component={AdminDatable} />
+						<Route exact path="/admin/errors" component={() => <AdminDatable object={"errors"} />} />
 						<Route exact path="/admin/errors/:id" component={AdminData} />
 					</Switch>
 				</div>

@@ -14,7 +14,7 @@ class AdminDatable extends Component {
 			items: [],
 			headers: [],
 			messages: [],
-			path: this.props.location.pathname.split("/")[2],
+			object: this.props.object,
 			isEditingGlobal: false,
 			isEditingLocal: false,
 			allChecked: false
@@ -30,10 +30,9 @@ class AdminDatable extends Component {
 		this.handleCheckAll = this.handleCheckAll.bind(this);
 	}
 
-	loadData(path) {
+	loadData(object) {
 		console.log("Loading data...");
-		this.setState({ path });
-		AdminService.getItems(path)
+		AdminService.getItems(object)
 			.then(items => {
 				let headers = [];
 				for (let key in items[0]) {
@@ -62,16 +61,16 @@ class AdminDatable extends Component {
 	}
 
 	componentDidMount() {
-		let path = this.props.location.pathname.split("/")[2];
-		this.loadData(path);
+		let object = this.props.object;
+		this.loadData(object);
 	}
 
-	componentDidUpdate() {
-		if (this.state.path !== this.props.location.pathname.split("/")[2]) {
-			let path = this.props.location.pathname.split("/")[2];
-			this.loadData(path);
-		}
-	}
+	// componentDidUpdate() {
+	// 	if (this.state.path !== this.props.location.pathname.split("/")[2]) {
+	// 		let path = this.props.location.pathname.split("/")[2];
+	// 		this.loadData(path);
+	// 	}
+	// }
 
 	handleClick(id) {
 		this.props.history.push(this.state.path + "/" + id);
