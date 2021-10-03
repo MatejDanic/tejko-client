@@ -15,8 +15,8 @@ export default class PopupConfirm extends Component {
 							</ul>
 						</div>
 
-						<button className="popup-button" onClick={() => this.props.onOk()} style={{ backgroundImage: 'url(/images/misc/yes.png)' }} />
-						<button className="popup-button" onClick={() => this.props.onClose()} style={{ backgroundImage: 'url(/images/misc/no.png)' }} />
+						<button className="popup-button" onClick={this.props.onOk} style={{ backgroundImage: 'url(/images/misc/yes.png)' }} />
+						<button className="popup-button" onClick={this.props.onClose} style={{ backgroundImage: 'url(/images/misc/no.png)' }} />
 					</div>
 				</div>
 			</div>

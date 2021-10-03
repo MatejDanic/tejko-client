@@ -119,16 +119,16 @@ class AdminData extends Component {
 				<div className="container-actions">
 					<div className="container-actions-left">
 						<button className="button button-save" onClick={() => window.location.reload()}>Refresh</button>
-						{isEditing && <button className="button button-delete" onClick={() => this.handleCancelEdit()}>Cancel</button>}
+						{isEditing && <button className="button button-delete" onClick={this.handleCancelEdit}>Cancel</button>}
 					</div>
 					<div className="container-actions-right">
-						{isEditing ? <button className="button button-save" onClick={() => this.handleSave()}>Save</button> :
-							<button className="button button-edit" onClick={() => this.handleEdit()}>Edit</button>}
-						<button className="button button-delete" onClick={() => this.handleDelete()}>Delete</button>
+						{isEditing ? <button className="button button-save" onClick={this.handleSave}>Save</button> :
+							<button className="button button-edit" onClick={this.handleEdit}>Edit</button>}
+						<button className="button button-delete" onClick={this.handleDelete}>Delete</button>
 					</div>
 				</div>
 				<div className="admin-item">{item && <div>{item.id}</div>}</div>
-				{this.state.showPopup && <Popup text={messages} onOk={() => this.togglePopup()} />}
+				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 
 			</div >
 		);

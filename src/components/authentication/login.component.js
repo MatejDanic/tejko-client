@@ -62,7 +62,7 @@ class Login extends Component {
 			credentials.password = this.state.password;
 			AuthService.login(JSON.stringify(credentials))
 				.then(response => {
-					if (response) {
+					if (response && response !== "undefined") {
 						this.props.onLogin(JSON.stringify(response));
 						this.props.history.push("/");
 					} else {
@@ -94,14 +94,14 @@ class Login extends Component {
 					<div className="window-top">
 						<div>
 							<div>Korisničko ime</div>
-							<input type="text" placeholder="Unesite korisničko ime" name="username" id="username" autoComplete="username" onChange={(event) => this.handleChangeUsername(event)} value={username} />
+							<input type="text" placeholder="Unesite korisničko ime" name="username" id="username" autoComplete="username" onChange={this.handleChangeUsername} value={username} />
 						</div>
 						<div>
 							<div>Lozinka</div>
-							<input type="password" placeholder="Unesite lozinku" name="password" id="password" autoComplete="current-password" onChange={(event) => this.handleChangePassword(event)} value={password} />
+							<input type="password" placeholder="Unesite lozinku" name="password" id="password" autoComplete="current-password" onChange={this.handleChangePassword} value={password} />
 						</div>
 					</div>
-					<button className="window-button-primary window-button-primary-login" onClick={() => this.handleLogin()}>Login</button>
+					<button className="window-button-primary window-button-primary-login" onClick={this.handleLogin}>Login</button>
 
 					<div className="window-bottom">
 						<div>
@@ -112,7 +112,7 @@ class Login extends Component {
 						</div>
 					</div>
 				</div>
-				{this.state.showPopup && <Popup text={messages} onOk={() => this.togglePopup()} />}
+				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 			</div >
 		);
 	}

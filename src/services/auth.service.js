@@ -14,26 +14,34 @@ class AuthService {
 	}
 
 	getCurrentUser() {
-		return JSON.parse(localStorage.getItem("user"));;
+		let user = localStorage.getItem("user");
+		if (user && user !== "undefined") {
+			return JSON.parse(user);
+		} else {
+			localStorage.removeItem("user");
+			return null;
+		}
 	}
 }
 
 export default new AuthService();
 
 export function authHeader() {
-	const user = JSON.parse(localStorage.getItem("user"));
-	if (user && user.accessToken) {
-		return { Authorization: "Bearer " + user.accessToken };
+	let user = localStorage.getItem("user");
+	if (user && user !== "undefined") {
+		return { Authorization: "Bearer " + JSON.parse(user).accessToken };
 	} else {
-		return {};
+		localStorage.removeItem("user");
+		return;
 	}
 }
 
 export function getToken() {
-	const user = JSON.parse(localStorage.getItem("user"));
-	if (user && user.accessToken) {
-		return user.accessToken;
+	let user = localStorage.getItem("user");
+	if (user && user !== "undefined") {
+		return JSON.parse(user).accessToken;
 	} else {
+		localStorage.removeItem("user");
 		return null;
 	}
 }

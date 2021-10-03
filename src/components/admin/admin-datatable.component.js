@@ -14,7 +14,7 @@ class AdminDatable extends Component {
 			items: [],
 			headers: [],
 			messages: [],
-			path: this.props.location.pathname.split("/")[2],
+			object: this.props.object,
 			isEditingGlobal: false,
 			isEditingLocal: false,
 			allChecked: false
@@ -30,9 +30,9 @@ class AdminDatable extends Component {
 		this.handleCheckAll = this.handleCheckAll.bind(this);
 	}
 
-	loadData(path) {
+	loadData(object) {
 		console.log("Loading data...");
-		AdminService.getItems(path)
+		AdminService.getItems(object)
 			.then(items => {
 				let headers = [];
 				for (let key in items[0]) {
@@ -40,7 +40,7 @@ class AdminDatable extends Component {
 						headers.push(key);
 					}
 				}
-				this.setState({ path, items, headers }, () => {
+				this.setState({ items, headers }, () => {
 					console.log("Data loaded!");
 				});
 			})
@@ -61,14 +61,16 @@ class AdminDatable extends Component {
 	}
 
 	componentDidMount() {
-		this.loadData(this.props.location.pathname.split("/")[2]);
+		let object = this.props.object;
+		this.loadData(object);
 	}
 
-	componentDidUpdate() {
-		if (this.state.path !== this.props.location.pathname.split("/")[2]) {
-			this.loadData(this.props.location.pathname.split("/")[2]);
-		}
-	}
+	// componentDidUpdate() {
+	// 	if (this.state.path !== this.props.location.pathname.split("/")[2]) {
+	// 		let path = this.props.location.pathname.split("/")[2];
+	// 		this.loadData(path);
+	// 	}
+	// }
 
 	handleClick(id) {
 		this.props.history.push(this.state.path + "/" + id);
@@ -86,7 +88,7 @@ class AdminDatable extends Component {
 					let request = {};
 					request[id] = {};
 					for (let j = 1; j < this.state.headers.length; j++) {
-						if (rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
+						if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
 							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
 						} else if (rows[i].children[j + 1].firstElementChild.value) {
 							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
@@ -150,12 +152,12 @@ class AdminDatable extends Component {
 				<div className="container-actions">
 					<div className="container-actions-left">
 						<button className="button button-save" onClick={() => window.location.reload()}>Refresh</button>
-						{isEditing && <button className="button button-delete" onClick={() => this.handleCancelEdit()}>Cancel</button>}
+						{isEditing && <button className="button button-delete" onClick={this.handleCancelEdit}>Cancel</button>}
 					</div>
 					<div className="container-actions-right">
-						{isEditing ? <button className="button button-save" onClick={() => this.handleSave()}>Save</button> :
-							<button className="button button-edit" onClick={() => this.handleEdit()}>Edit</button>}
-						<button className="button button-delete" onClick={() => this.handleDelete()}>Delete</button>
+						{isEditing ? <button className="button button-save" onClick={this.handleSave}>Save</button> :
+							<button className="button button-edit" onClick={this.handleEdit}>Edit</button>}
+						<button className="button button-delete" onClick={this.handleDelete}>Delete</button>
 					</div>
 
 				</div>
@@ -176,7 +178,7 @@ class AdminDatable extends Component {
 						)}
 					</tbody>
 				</table>
-				{this.state.showPopup && <Popup text={messages} onOk={() => this.togglePopup()} />}
+				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 			</div>
 		);
 	}
