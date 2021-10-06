@@ -30,7 +30,7 @@ class Admin extends Component {
 						<Route exact path="/admin/challenges" component={() => <AdminDatable object={"challenges"} />} />
 						<Route exact path="/admin/challenges/:id" component={() => <AdminData object={"challenges"} />} />
 						<Route exact path="/admin/errors" component={() => <AdminDatable object={"errors"} />} />
-						<Route exact path="/admin/errors/:id" component={() => <AdminData object={"challenges"} />} />
+						<Route exact path="/admin/errors/:id" component={() => <AdminData object={"errors"} />} />
 					</Switch>
 				</div>
 
