@@ -6,12 +6,8 @@
 }
 
 .container-content {
-	width: 80%;
+	width: 100%;
 	margin: 5%;
-}
-
-.container-sidebar {
-	width: 20%;
 }
 
 .container-actions {
@@ -19,7 +15,6 @@
 	padding: 2%;
 	margin: 2%;
 	text-align: right;
-	border-bottom: 1px solid black;
 }
 
 .container-actions-left {
@@ -41,30 +36,6 @@
 	font-size: large;
 }
 
-.button-save {
-	background-color: green;
-}
-
-.button-save:hover {
-	background-color: darkgreen;
-}
-
-.button-delete {
-	background-color: indianred;
-}
-
-.button-delete:hover {
-	background-color: darkred;
-}
-
-.button-edit {
-	background-color: goldenrod;
-}
-
-.button-edit:hover {
-	background-color: darkgoldenrod;
-}
-
 .datatable {
 	table-layout: fixed;
 	width: 100%;
@@ -74,9 +45,8 @@
 }
 
 .datatable th {
-	border-bottom: 1px solid black;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
+	text-transform: capitalize;
+	font-weight: bold;
 }
 
 .datatable tr {
@@ -93,17 +63,8 @@
 	margin: 0px;
 }
 
-.datatable tr:nth-child(even) {
-	background-color: lightgray;
-}
-
-.datatable tr:nth-child(odd) {
-	background-color: whitesmoke;
-}
-
 .datatable th:first-child {
-	border-top-left-radius: 10px;
-	border-left: 0;
+	border: none;
 }
 
 .datatable th:last-child {
@@ -111,26 +72,12 @@
 	border-right: 0;
 }
 
-.datatable tr td:first-child {
-	border: none;
-	background-color: white;
-}
-
 .datatable tr th:first-child {
 	width: 10%;
-	background-color: white;
-	border: none;
 }
 
 .datatable tbody tr:hover {
 	cursor: pointer;
-	background-color: lightskyblue;
-}
-
-.datatable th {
-	background-color: darkcyan;
-	color: white;
-	font-weight: normal;
 }
 
 .container-admin-input {
@@ -166,4 +113,57 @@
 .admin-input-checkbox {
 	padding: 0px;
 	margin: 0px;
+}
+
+.admin-item table {
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+	font-size: large;
+}
+
+@media (prefers-color-scheme: dark) {
+	.button {
+		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+		color: white;
+	}
+
+	.button-save {
+		background-color: #3e7742;
+	}
+
+	.button-save:hover {
+		background-color: darkgreen;
+	}
+
+	.button-delete {
+		background-color: rgb(131, 56, 56);
+	}
+
+	.button-delete:hover {
+		background-color: darkred;
+	}
+
+	.button-edit {
+		background-color: rgb(141, 106, 19);
+	}
+
+	.button-edit:hover {
+		background-color: rgb(126, 92, 7);
+	}
+
+	.datatable th {
+		border-bottom: 1px solid white;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.container-actions {
+		padding-left: 0;
+		padding-right: 0;
+		margin: 0;
+	}
+	.container-actions-left {
+		display: inline-flex;
+	}
 }
