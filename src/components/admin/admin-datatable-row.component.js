@@ -16,6 +16,7 @@ class AdminDatatableRow extends Component {
 
 		this.handleLocalEdit = this.handleLocalEdit.bind(this);
 		this.handleCheck = this.handleCheck.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,7 +43,7 @@ class AdminDatatableRow extends Component {
 	}
 
 	handleClick(id) {
-		this.props.onClick(id);
+		this.props.history.push(this.props.object + "/" + id);
 	}
 
 	render() {
@@ -55,8 +56,9 @@ class AdminDatatableRow extends Component {
 		return (
 			<tr>
 				<td><input className="admin-input" type="checkbox" onChange={() => this.handleCheck()} value={checked} checked={checked}></input></td>
-				{headers.map(key =>
-					<AdminDatatableCell key={key} cell={item[key]} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onClick={(id) => this.handleClick(id)} onLocalEdit={() => this.handleLocalEdit()} />
+				<td onClick={() => this.handleClick(item[headers[0]])}>{item[headers[0]]}</td>
+				{headers.slice(1).map(key =>
+					<AdminDatatableCell key={key} cell={item[key]} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={() => this.handleLocalEdit()} />
 				)}
 			</tr>
 		);

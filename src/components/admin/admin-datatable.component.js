@@ -65,17 +65,6 @@ class AdminDatable extends Component {
 		this.loadData(object);
 	}
 
-	// componentDidUpdate() {
-	// 	if (this.state.path !== this.props.location.pathname.split("/")[2]) {
-	// 		let path = this.props.location.pathname.split("/")[2];
-	// 		this.loadData(path);
-	// 	}
-	// }
-
-	handleClick(id) {
-		this.props.history.push(this.state.path + "/" + id);
-	}
-
 	handleSave() {
 		if (this.state.allChecked) {
 			console.log("allChecked");
@@ -139,6 +128,7 @@ class AdminDatable extends Component {
 	}
 
 	render() {
+		let object = this.state.object;
 		let items = this.state.items;
 		let headers = this.state.headers;
 		let messages = this.state.messages;
@@ -174,7 +164,7 @@ class AdminDatable extends Component {
 					</thead>
 					<tbody>
 						{items.map(item =>
-							<AdminDatatableRow key={item[Object.keys(item)[0]]} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onClick={(id) => this.handleClick(id)} onLocalEdit={() => this.handleLocalEdit()} />
+							<AdminDatatableRow key={item[Object.keys(item)[0]]} object={object} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
 						)}
 					</tbody>
 				</table>

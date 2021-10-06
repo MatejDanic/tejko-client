@@ -13,7 +13,8 @@ class AdminData extends Component {
 			items: [],
 			headers: [],
 			messages: [],
-			path: this.props.location.pathname.split("/")[2] + "/" + this.props.match.params.id,
+			object: this.props.object,
+			id: this.props.match.params.id,
 			isEditingGlobal: false,
 			isEditingLocal: false,
 			allChecked: false
@@ -27,15 +28,15 @@ class AdminData extends Component {
 		this.handleCancelEdit = this.handleCancelEdit.bind(this);
 	}
 
-	loadData(path) {
+	loadData(object, id) {
 		console.log("Loading data...");
-		AdminService.getItem(path)
+		AdminService.getItem(object + "/" + id)
 			.then(item => {
 				let headers = [];
 				for (let key in item) {
 					headers.push(key);
 				}
-				this.setState({ path, item, headers }, () => {
+				this.setState({ item, headers }, () => {
 					console.log("Data loaded!");
 				});
 			})
@@ -56,15 +57,9 @@ class AdminData extends Component {
 	}
 
 	componentDidMount() {
-		let path = this.props.location.pathname.split("/")[2] + "/" + this.props.match.params.id;
-		this.loadData(path);
-	}
-
-	componentDidUpdate() {
-		let path = this.props.location.pathname.split("/")[2] + "/" + this.props.match.params.id;
-		if (this.state.path !== path) {
-			this.loadData(path);
-		}
+		let object = this.props.object;
+		let id = this.props.match.params.id;
+		this.loadData(object, id);
 	}
 
 	handleSave() {
@@ -107,12 +102,12 @@ class AdminData extends Component {
 	}
 
 	render() {
+		let item = this.state.item;
 		let headers = this.state.headers;
 		let messages = this.state.messages;
 		let isEditingLocal = this.state.isEditingLocal;
 		let isEditingGlobal = this.state.isEditingGlobal;
 		let isEditing = isEditingLocal || isEditingGlobal;
-		let item = this.state.item;
 
 		return (
 			<div>
@@ -127,7 +122,47 @@ class AdminData extends Component {
 						<button className="button button-delete" onClick={this.handleDelete}>Delete</button>
 					</div>
 				</div>
-				<div className="admin-item">{item && <div>{item.id}</div>}</div>
+				<div className="admin-item">
+					{item &&
+						<table>
+							{headers.map(key =>
+								<tr key={key}>
+									<td>
+										{key}:
+									</td>
+									{!(item[key] instanceof Object || item[key] instanceof Map || item[key] instanceof Array) &&
+										<td>
+											{item[key]}
+										</td>
+									}
+									{(item[key] instanceof Array) &&
+										<ul>
+											{item[key].map(listItem =>
+												<li>
+													{(listItem instanceof Object) &&
+														<table border-collaps={"collapse"} border={"border: 1px solid white;"}>
+															<tr>
+																{Object.keys(listItem).map(listItemKey =>
+																	<th>{listItemKey}</th>
+																)}
+															</tr>
+															<tr>
+																{Object.keys(listItem).map(listItemKey =>
+																	<td>{listItem[listItemKey]}</td>
+																)}
+															</tr>
+														</table>
+													}
+												</li>
+											)}
+										</ul>
+									}
+								</tr>
+
+							)}
+						</table>
+					}
+				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 
 			</div >

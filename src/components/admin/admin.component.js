@@ -13,26 +13,24 @@ class Admin extends Component {
 	render() {
 		return (
 			<div className="container">
-				<div className="container-sidebar">
-					<SideBar />
-				</div>
+				<SideBar />
 				<div className="container-content">
 					<Switch>
 						<Route exact path="/admin" component={AdminDashboard} />
 						<Route exact path="/admin/games" component={() => <AdminDatable object={"games"} />} />
-						<Route exact path="/admin/games/:id" component={AdminData} />
+						<Route exact path="/admin/games/:id" component={() => <AdminData object={"games"} />} />
 						<Route exact path="/admin/scores" component={() => <AdminDatable object={"scores"} />} />
-						<Route exact path="/admin/scores/:id" component={AdminData} />
+						<Route exact path="/admin/scores/:id" component={() => <AdminData object={"scores"} />} />
 						<Route exact path="/admin/users" component={() => <AdminDatable object={"users"} />} />
-						<Route exact path="/admin/users/:id" component={AdminData} />
+						<Route exact path="/admin/users/:id" component={() => <AdminData object={"users"} />} />
 						<Route exact path="/admin/roles" component={() => <AdminDatable object={"roles"} />} />
-						<Route exact path="/admin/roles/:id" component={AdminData} />
+						<Route exact path="/admin/roles/:id" component={() => <AdminData object={"roles"} />} />
 						<Route exact path="/admin/yambs" component={() => <AdminDatable object={"yambs"} />} />
-						<Route exact path="/admin/yambs/:id" component={AdminData} />
+						<Route exact path="/admin/yambs/:id" component={() => <AdminData object={"yambs"} />} />
 						<Route exact path="/admin/challenges" component={() => <AdminDatable object={"challenges"} />} />
-						<Route exact path="/admin/challenges/:id" component={AdminData} />
+						<Route exact path="/admin/challenges/:id" component={() => <AdminData object={"challenges"} />} />
 						<Route exact path="/admin/errors" component={() => <AdminDatable object={"errors"} />} />
-						<Route exact path="/admin/errors/:id" component={AdminData} />
+						<Route exact path="/admin/errors/:id" component={() => <AdminData object={"challenges"} />} />
 					</Switch>
 				</div>
 
