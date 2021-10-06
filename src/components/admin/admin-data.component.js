@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Popup from "../popup/popup.component";
 import AdminService from "../../services/admin.service";
+import AdminDataObject from "./admin-data-object.component";
 import "./admin.css";
 
 class AdminData extends Component {
@@ -103,7 +104,6 @@ class AdminData extends Component {
 
 	render() {
 		let item = this.state.item;
-		let headers = this.state.headers;
 		let messages = this.state.messages;
 		let isEditingLocal = this.state.isEditingLocal;
 		let isEditingGlobal = this.state.isEditingGlobal;
@@ -123,45 +123,7 @@ class AdminData extends Component {
 					</div>
 				</div>
 				<div className="admin-item">
-					{item &&
-						<table>
-							{headers.map(key =>
-								<tr key={key}>
-									<td>
-										{key}:
-									</td>
-									{!(item[key] instanceof Object || item[key] instanceof Map || item[key] instanceof Array) &&
-										<td>
-											{item[key]}
-										</td>
-									}
-									{(item[key] instanceof Array) &&
-										<ul>
-											{item[key].map(listItem =>
-												<li>
-													{(listItem instanceof Object) &&
-														<table border-collaps={"collapse"} border={"border: 1px solid white;"}>
-															<tr>
-																{Object.keys(listItem).map(listItemKey =>
-																	<th>{listItemKey}</th>
-																)}
-															</tr>
-															<tr>
-																{Object.keys(listItem).map(listItemKey =>
-																	<td>{listItem[listItemKey]}</td>
-																)}
-															</tr>
-														</table>
-													}
-												</li>
-											)}
-										</ul>
-									}
-								</tr>
-
-							)}
-						</table>
-					}
+					{item && <AdminDataObject object={item} />}
 				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 
