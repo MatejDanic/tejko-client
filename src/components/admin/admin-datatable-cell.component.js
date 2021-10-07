@@ -1,7 +1,7 @@
 import { React, Component } from "react";
 import { withRouter } from "react-router";
 
-const uuid = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+// const uuid = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
 class AdminDatatableCell extends Component {
 
@@ -18,29 +18,25 @@ class AdminDatatableCell extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleChange(event) {
-		let cellValueNew = event.target.value;
-		this.setState({ cellValueNew });
-	}
-
 	componentDidUpdate() {
-		if (!this.props.isEditingGlobal && !this.props.isEditingLocal && this.state.isEditing) {
-			let isEditing = false;
-			this.setState({ isEditing });
-		} else if (this.props.isEditingGlobal && !this.state.isEditing) {
-			let isEditing = true;
-			this.setState({ isEditing });
+		if (this.state.cellValue == "matej") {
+			console.log(this.state.isEditing, this.props.isEditingGlobal, this.props.isEditingLocal);
 		}
 	}
 
 	handleClick() {
-		if (uuid.test(this.state.cellValue)) {
-			this.props.onClick(this.state.cellValue);
-		} else {
+		if (!this.state.isEditing) {
+			console.log("Cell: Click");
 			let isEditing = true;
-			if (isEditing) this.props.onLocalEdit();
-			this.setState({ isEditing });
+			this.setState({ isEditing }, () => {
+				this.props.onLocalEdit();
+			});
 		}
+	}
+
+	handleChange(event) {
+		let cellValueNew = event.target.value;
+		this.setState({ cellValueNew });
 	}
 
 	render() {

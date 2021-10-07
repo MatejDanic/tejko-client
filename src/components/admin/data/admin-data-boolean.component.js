@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import "./admin.css";
+import "./admin-data.css";
 
 class AdminDataText extends Component {
 
@@ -8,9 +8,11 @@ class AdminDataText extends Component {
         super(props);
 
         this.state = {
-            value: "",
+            value: this.props.value,
             isEditing: false
         };
+
+        this.handleChange = this.handleChange.bind(this);
 
     }
 
@@ -19,11 +21,16 @@ class AdminDataText extends Component {
         this.setState({ value });
     }
 
+    handleChange() {
+        let value = !this.state.value;
+        this.setState({ value });
+    }
+
     render() {
         let value = this.state.value;
 
         return (
-            <input className="data-checkbox" type="checkbox" checked={value}></input>
+            <input className="data-checkbox" type="checkbox" checked={value} onChange={this.handleChange}></input>
         )
     }
 }

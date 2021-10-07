@@ -43,7 +43,7 @@ class AdminDatatableRow extends Component {
 	}
 
 	handleClick(id) {
-		this.props.history.push(this.props.object + "/" + id);
+		this.props.history.push(this.props.resource + "/" + id);
 	}
 
 	render() {

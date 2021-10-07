@@ -8,7 +8,7 @@ export default class SideBar extends Component {
 		super(props);
 
 		this.state = {
-			open: true
+			open: false
 		};
 
 		this.toggleSideBar = this.toggleSideBar.bind(this);

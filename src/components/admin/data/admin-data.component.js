@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import Popup from "../popup/popup.component";
-import AdminService from "../../services/admin.service";
-import AdminDataObject from "./admin-data-object.component";
-import "./admin.css";
+import Popup from "../../popup/popup.component";
+import AdminService from "../../../services/admin.service";
+import AdminDataElement from "./admin-data-element.component";
+import "./admin-data.css";
 
 class AdminData extends Component {
 
@@ -11,39 +11,44 @@ class AdminData extends Component {
 		super(props);
 
 		this.state = {
-			items: [],
-			headers: [],
+			item: undefined,
+			headers: undefined,
 			messages: [],
-			object: this.props.object,
+			resource: this.props.resource,
 			id: this.props.match.params.id,
 			isEditingGlobal: false,
-			isEditingLocal: false
+			isEditingLocal: false,
+			dataLoaded: false
 		};
 
 		this.loadData = this.loadData.bind(this);
 		this.togglePopup = this.togglePopup.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
-		this.handleDelete = this.handleDelete.bind(this);
 		this.handleCancelEdit = this.handleCancelEdit.bind(this);
+		this.handleLocalEdit = this.handleLocalEdit.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	componentDidMount() {
-		let object = this.props.object;
+		let resource = this.props.resource;
 		let id = this.props.match.params.id;
-		this.loadData(object, id);
+		if (!this.state.dataLoaded) {
+			this.loadData(resource, id);
+		}
 	}
 
-	loadData(object, id) {
+	loadData(resource, id) {
 		console.log("Loading data...");
-		AdminService.getItem(object + "/" + id)
+		AdminService.getItem(resource + "/" + id)
 			.then(item => {
 				let headers = [];
 				for (let key in item) {
 					headers.push(key);
 				}
-				this.setState({ item, headers }, () => {
-					console.log("Data loaded!");
+				let dataLoaded = true
+				this.setState({ item, headers, dataLoaded }, () => {
+					console.log("Data loaded:", item);
 				});
 			})
 			.catch(response => {
@@ -59,31 +64,27 @@ class AdminData extends Component {
 	}
 
 	handleSave() {
-		if (this.state.allChecked) {
-			console.log("allChecked");
-		} else {
-			let rows = document.getElementsByTagName("tr");
-			let requests = [];
-			for (let i = 1; i < rows.length; i++) {
-				if (rows[i].children[0].firstChild.checked) {
-					let id = rows[i].children[1].firstElementChild.textContent;
-					let request = {};
-					request[id] = {};
-					for (let j = 1; j < this.state.headers.length; j++) {
-						if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
-						} else if (rows[i].children[j + 1].firstElementChild.value) {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
-						} else if (rows[i].children[j + 1].firstElementChild.textContent) {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
-						}
-
+		let rows = document.getElementsByTagName("tr");
+		let requests = [];
+		for (let i = 1; i < rows.length; i++) {
+			if (rows[i].children[0].firstChild.checked) {
+				let id = rows[i].children[1].firstElementChild.textContent;
+				let request = {};
+				request[id] = {};
+				for (let j = 1; j < this.state.headers.length; j++) {
+					if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
+						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
+					} else if (rows[i].children[j + 1].firstElementChild.value) {
+						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
+					} else if (rows[i].children[j + 1].firstElementChild.textContent) {
+						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
 					}
-					requests.push(request);
+
 				}
+				requests.push(request);
 			}
-			console.log(JSON.stringify(requests));
 		}
+		console.log(JSON.stringify(requests));
 	}
 
 	handleEdit() {
@@ -99,6 +100,12 @@ class AdminData extends Component {
 		this.setState({ isEditingGlobal, isEditingLocal });
 	}
 
+	handleLocalEdit() {
+		console.log("Local Edit");
+		let isEditingLocal = true;
+		this.setState({ isEditingLocal });
+	}
+
 	handleDelete() {
 		console.log("Delete");
 		let rows = document.getElementsByTagName("tr");
@@ -107,12 +114,6 @@ class AdminData extends Component {
 				console.log(rows[i].children[1].firstElementChild.textContent);
 			}
 		}
-	}
-
-	handleLocalEdit() {
-		console.log("Local Edit");
-		let isEditingLocal = true;
-		this.setState({ isEditingLocal });
 	}
 
 	togglePopup(messages) {
@@ -140,7 +141,7 @@ class AdminData extends Component {
 					</div>
 				</div>
 				<div className="admin-item">
-					{item && <AdminDataObject object={item} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={() => this.handleLocalEdit()} />}
+					{item && <AdminDataElement element={item} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />}
 				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 

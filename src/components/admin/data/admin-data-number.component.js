@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import "./admin.css";
+import "./admin-data.css";
 
-class AdminDataText extends Component {
+class AdminDataNumber extends Component {
 
     constructor(props) {
         super(props);
@@ -30,4 +30,4 @@ class AdminDataText extends Component {
     }
 }
 
-export default withRouter(AdminDataText);
+export default withRouter(AdminDataNumber);

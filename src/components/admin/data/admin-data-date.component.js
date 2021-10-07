@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import "./admin.css";
+import "./admin-data.css";
 
-class AdminDataNumber extends Component {
+class AdminDataDate extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            value: "",
+            value: this.props.value,
             isEditing: false
         };
 
@@ -30,4 +30,4 @@ class AdminDataNumber extends Component {
     }
 }
 
-export default withRouter(AdminDataNumber);
+export default withRouter(AdminDataDate);

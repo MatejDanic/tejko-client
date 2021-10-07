@@ -14,7 +14,7 @@ class AdminDatable extends Component {
 			items: [],
 			headers: [],
 			messages: [],
-			object: this.props.object,
+			resource: this.props.resource,
 			isEditingGlobal: false,
 			isEditingLocal: false,
 			allChecked: false
@@ -30,9 +30,9 @@ class AdminDatable extends Component {
 		this.handleCheckAll = this.handleCheckAll.bind(this);
 	}
 
-	loadData(object) {
+	loadData(resource) {
 		console.log("Loading data...");
-		AdminService.getItems(object)
+		AdminService.getItems(resource)
 			.then(items => {
 				let headers = [];
 				for (let key in items[0]) {
@@ -61,8 +61,8 @@ class AdminDatable extends Component {
 	}
 
 	componentDidMount() {
-		let object = this.props.object;
-		this.loadData(object);
+		let resource = this.props.resource;
+		this.loadData(resource);
 	}
 
 	handleSave() {
@@ -104,6 +104,11 @@ class AdminDatable extends Component {
 		this.setState({ isEditingGlobal, isEditingLocal });
 	}
 
+	handleLocalEdit() {
+		let isEditingLocal = true;
+		this.setState({ isEditingLocal });
+	}
+
 	handleDelete() {
 		if (this.state.allChecked) {
 			console.log("allChecked");
@@ -122,13 +127,8 @@ class AdminDatable extends Component {
 		this.setState({ allChecked });
 	}
 
-	handleLocalEdit() {
-		let isEditingLocal = true;
-		this.setState({ isEditingLocal });
-	}
-
 	render() {
-		let object = this.state.object;
+		let resource = this.state.resource;
 		let items = this.state.items;
 		let headers = this.state.headers;
 		let messages = this.state.messages;
@@ -164,7 +164,7 @@ class AdminDatable extends Component {
 					</thead>
 					<tbody>
 						{items.map(item =>
-							<AdminDatatableRow key={item[Object.keys(item)[0]]} object={object} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
+							<AdminDatatableRow key={item[Object.keys(item)[0]]} resource={resource} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
 						)}
 					</tbody>
 				</table>
