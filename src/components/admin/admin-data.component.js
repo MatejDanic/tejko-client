@@ -17,8 +17,7 @@ class AdminData extends Component {
 			object: this.props.object,
 			id: this.props.match.params.id,
 			isEditingGlobal: false,
-			isEditingLocal: false,
-			allChecked: false
+			isEditingLocal: false
 		};
 
 		this.loadData = this.loadData.bind(this);
@@ -27,6 +26,12 @@ class AdminData extends Component {
 		this.handleEdit = this.handleEdit.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleCancelEdit = this.handleCancelEdit.bind(this);
+	}
+
+	componentDidMount() {
+		let object = this.props.object;
+		let id = this.props.match.params.id;
+		this.loadData(object, id);
 	}
 
 	loadData(object, id) {
@@ -53,53 +58,65 @@ class AdminData extends Component {
 			});
 	}
 
-	togglePopup(messages) {
-		this.setState({ showPopup: !this.state.showPopup, messages });
-	}
-
-	componentDidMount() {
-		let object = this.props.object;
-		let id = this.props.match.params.id;
-		this.loadData(object, id);
-	}
-
 	handleSave() {
-		console.log("Save")
-		// let rows = document.getElementsByTagName("tr");
-		// let requests = [];
-		// for (let i = 1; i < rows.length; i++) {
-		// 	if (rows[i].children[0].firstChild.checked) {
-		// 		let id = rows[i].children[1].firstElementChild.textContent;
-		// 		let request = {};
-		// 		request[id] = {};
-		// 		for (let j = 1; j < this.state.headers.length; j++) {
-		// 			if (rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
-		// 				request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
-		// 			} else if (rows[i].children[j + 1].firstElementChild.value) {
-		// 				request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
-		// 			} else if (rows[i].children[j + 1].firstElementChild.textContent) {
-		// 				request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
-		// 			}
+		if (this.state.allChecked) {
+			console.log("allChecked");
+		} else {
+			let rows = document.getElementsByTagName("tr");
+			let requests = [];
+			for (let i = 1; i < rows.length; i++) {
+				if (rows[i].children[0].firstChild.checked) {
+					let id = rows[i].children[1].firstElementChild.textContent;
+					let request = {};
+					request[id] = {};
+					for (let j = 1; j < this.state.headers.length; j++) {
+						if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
+							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
+						} else if (rows[i].children[j + 1].firstElementChild.value) {
+							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
+						} else if (rows[i].children[j + 1].firstElementChild.textContent) {
+							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
+						}
 
-		// 		}
-		// 		requests.push(request);
-		// 	}
-		// }
-		// console.log(JSON.stringify(requests));
+					}
+					requests.push(request);
+				}
+			}
+			console.log(JSON.stringify(requests));
+		}
 	}
 
 	handleEdit() {
-		let isEditing = true;
-		this.setState({ isEditing });
+		console.log("Edit")
+		let isEditingGlobal = true;
+		this.setState({ isEditingGlobal });
 	}
 
 	handleCancelEdit() {
-		let isEditing = false;
-		this.setState({ isEditing });
+		console.log("Cancel Edit")
+		let isEditingGlobal = false;
+		let isEditingLocal = false;
+		this.setState({ isEditingGlobal, isEditingLocal });
 	}
 
 	handleDelete() {
 		console.log("Delete");
+		let rows = document.getElementsByTagName("tr");
+		for (let i = 1; i < rows.length; i++) {
+			if (rows[i].children[0].firstChild.checked) {
+				console.log(rows[i].children[1].firstElementChild.textContent);
+			}
+		}
+	}
+
+	handleLocalEdit() {
+		console.log("Local Edit");
+		let isEditingLocal = true;
+		this.setState({ isEditingLocal });
+	}
+
+	togglePopup(messages) {
+		this.setState({ showPopup: !this.state.showPopup, messages });
 	}
 
 	render() {
@@ -123,7 +140,7 @@ class AdminData extends Component {
 					</div>
 				</div>
 				<div className="admin-item">
-					{item && <AdminDataObject object={item} />}
+					{item && <AdminDataObject object={item} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={() => this.handleLocalEdit()} />}
 				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 

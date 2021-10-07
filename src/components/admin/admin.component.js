@@ -33,9 +33,7 @@ class Admin extends Component {
 						<Route exact path="/admin/errors/:id" component={() => <AdminData object={"errors"} />} />
 					</Switch>
 				</div>
-
 			</div>
-
 		);
 	}
 }
