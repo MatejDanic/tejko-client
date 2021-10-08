@@ -162,4 +162,8 @@
 		height: 100%;
 		width: 60%;
 	}
+
+	.top-bar-right {
+		display: inline-flex;
+	}
 }

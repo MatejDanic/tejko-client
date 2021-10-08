@@ -23,9 +23,9 @@ class TopBar extends Component {
 			<div className="top-bar">
 				<div className="top-bar-left">
 					<Link to="/" className="top-bar-element">Home</Link>
-					<Link to="/games" className="top-bar-element">Games</Link>
+					{/* <Link to="/games" className="top-bar-element">Games</Link>
 					<Link to="/users" className="top-bar-element">Users</Link>
-					<Link to="/scores" className="top-bar-element">Scores</Link>
+					<Link to="/scores" className="top-bar-element">Scores</Link> */}
 				</div>
 				<div className="top-bar-right">
 					{currentUser && currentUser.roles && currentUser.roles.includes("ADMIN") &&
