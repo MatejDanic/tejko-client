@@ -27,13 +27,13 @@ class AdminDataText extends Component {
     }
 
     render() {
-        let value = this.state.value;
+        let value = this.state.value ?? "null";
         let valueNew = this.state.valueNew;
         let isEditing = this.props.isEditing;
 
         return (
-            <div>
-                {isEditing ? <input className="element-input" value={valueNew} onChange={this.handleChange}></input> : <div>{value}</div>}
+            <div className="data-text">
+                {isEditing ? <input className="element-input" value={valueNew} onChange={this.handleChange}></input> : value}
             </div>
         )
     }

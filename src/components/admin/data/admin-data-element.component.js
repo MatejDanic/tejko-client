@@ -56,13 +56,13 @@ class AdminDataElement extends Component {
         let isEditingGlobal = this.props.isEditingGlobal;
 
         return (
-            <div>
+            <div className="container-data-value">
                 {(element instanceof Array) ?
                     <AdminDataArray array={element} /> :
                     element instanceof Object &&
                     <AdminDataObject object={element} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.props.onLocalEdit} />
                 }
-                <div className="data-value" onClick={this.handleClick}>
+                <div onClick={this.handleClick}>
                     {(typeof (element) === "string") &&
                         <AdminDataText value={element} isEditing={isEditing} />
                     }
@@ -71,6 +71,9 @@ class AdminDataElement extends Component {
                     }
                     {(typeof (element) === "boolean") &&
                         <AdminDataBoolean value={element} isEditing={isEditing} />
+                    }
+                    {(element == null) &&
+                        <AdminDataText value={element} isEditing={isEditing} />
                     }
                 </div>
 
