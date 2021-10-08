@@ -23,15 +23,15 @@ a {
 
 @media (prefers-color-scheme: dark) {
 	body {
-		background-color: #666;
-		color: white;
+		background-color: #444;
+		color: #fff;
 	}
 }
 
 @media (prefers-color-scheme: light) {
 	body {
 		background-color: #fff;
-		color: black;
+		color: #111;
 	}
 }
 

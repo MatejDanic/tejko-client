@@ -9,7 +9,10 @@ export function request(method, url, body) {
 
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.setRequestHeader("Accept", "application/json")
-		if (getToken() != null) xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+		let token = getToken();
+		if (token) {
+			xhr.setRequestHeader("Authorization", "Bearer " + token);
+		}
 
 		xhr.onload = function () {
 			if (this.status >= 200 && this.status < 300) {
@@ -21,6 +24,10 @@ export function request(method, url, body) {
 		xhr.onerror = function () {
 			reject({ status: xhr.status, message: "Server trenutno nije dostupan. (Zovi Mateja)" });
 		};
-		xhr.send(body);
+		if (body) {
+			xhr.send(body);
+		} else {
+			xhr.send();
+		}
 	});
 }

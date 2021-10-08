@@ -1,0 +1,48 @@
+.container-actions {
+    border-bottom: 1px solid white;
+    margin-bottom: 20px;
+}
+
+.container-element {
+    margin: 10px;
+    height: 80vh;
+    overflow: scroll;
+    font-size: large;
+    text-align: left;
+}
+
+.data-object {
+    overflow-wrap: break-word;
+}
+
+.data-value {
+    color: #ddd;
+}
+
+.data-array {
+    margin: 0px;
+    padding-left: 10px;
+}
+
+.data-header {
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+.id {
+    font-weight: bold;
+}
+
+.data-checkbox {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.element-input {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-size: large;
+}
