@@ -15,6 +15,7 @@ class AdminDatable extends Component {
 			headers: [],
 			messages: [],
 			resource: this.props.resource,
+			isEditing: false,
 			isEditingGlobal: false,
 			isEditingLocal: false,
 			allChecked: false
@@ -40,8 +41,11 @@ class AdminDatable extends Component {
 						headers.push(key);
 					}
 				}
-				this.setState({ items, headers }, () => {
-					console.log("Data loaded!");
+				let allChecked = false;
+				let isEditing = false;
+				console.log("Data Loaded", items);
+				this.setState({ resource, items, headers, allChecked, isEditing }, () => {
+					//this.handleCancelEdit();
 				});
 			})
 			.catch(response => {
@@ -65,61 +69,91 @@ class AdminDatable extends Component {
 		this.loadData(resource);
 	}
 
-	handleSave() {
-		if (this.state.allChecked) {
-			console.log("allChecked");
-		} else {
-			let rows = document.getElementsByTagName("tr");
-			let requests = [];
-			for (let i = 1; i < rows.length; i++) {
-				if (rows[i].children[0].firstChild.checked) {
-					let id = rows[i].children[1].firstElementChild.textContent;
-					let request = {};
-					request[id] = {};
-					for (let j = 1; j < this.state.headers.length; j++) {
-						if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
-						} else if (rows[i].children[j + 1].firstElementChild.value) {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
-						} else if (rows[i].children[j + 1].firstElementChild.textContent) {
-							request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
-						}
+	componentDidUpdate() {
+		let resource = this.state.resource;
+		if (resource !== this.props.resource) {
+			let resource = this.props.resource;
+			this.loadData(resource);
+		}
+	}
 
+	handleSave() {
+		let rows = document.getElementsByTagName("tr");
+		let headers = this.state.headers;
+		let idRequestMap = {};
+		for (let i = 1; i < rows.length; i++) {
+			let row = rows[i];
+			if (row.firstChild.firstChild.checked) {
+				let cells = row.children;
+				let id = cells[1].textContent;
+				idRequestMap[id] = {};
+				for (let j = 2; j < cells.length; j++) {
+					let input = cells[j].getElementsByTagName("input")[0];
+					if (input) {
+						let value = undefined;
+						if (input.type === "checkbox") {
+							value = input.checked;
+						} else if (input.type === "text") {
+							value = input.value;
+						}
+						if (value !== undefined) {
+							idRequestMap[id][headers[j - 1]] = value;
+						}
 					}
-					requests.push(request);
 				}
 			}
-			console.log(JSON.stringify(requests));
+		}
+		if (Object.keys(idRequestMap).length > 0) {
+			let resource = this.state.resource;
+			AdminService.updateItems(resource, JSON.stringify(idRequestMap))
+				.then(response => {
+					console.log(response);
+					this.loadData(resource);
+				})
+				.catch(response => {
+					if (response.type === "ERROR") {
+						let messages = [];
+						messages.push(response.subject);
+						messages.push(response.body);
+						this.togglePopup(messages);
+					} else {
+						console.error(response);
+					}
+				});
 		}
 	}
 
 	handleEdit() {
 		let isEditingGlobal = true;
-		this.setState({ isEditingGlobal });
+		let isEditing = true;
+		this.setState({ isEditing, isEditingGlobal });
 	}
 
 	handleCancelEdit() {
+		let isEditing = false;
 		let isEditingGlobal = false;
 		let isEditingLocal = false;
-		this.setState({ isEditingGlobal, isEditingLocal });
+		this.setState({ isEditing, isEditingGlobal, isEditingLocal });
 	}
 
 	handleLocalEdit() {
 		let isEditingLocal = true;
-		this.setState({ isEditingLocal });
+		let isEditing = true;
+		this.setState({ isEditing, isEditingLocal });
 	}
 
 	handleDelete() {
-		if (this.state.allChecked) {
-			console.log("allChecked");
-		} else {
-			let rows = document.getElementsByTagName("tr");
-			for (let i = 1; i < rows.length; i++) {
-				if (rows[i].children[0].firstChild.checked) {
-					console.log(rows[i].children[1].firstElementChild.textContent);
-				}
+		let rows = document.getElementsByTagName("tr");
+		let idList = [];
+		for (let i = 1; i < rows.length; i++) {
+			let row = rows[i];
+			if (row.firstChild.firstChild.checked) {
+				let cells = row.children;
+				let id = cells[1].textContent;
+				idList.push(id);
 			}
 		}
+		console.log(JSON.stringify(idList));
 	}
 
 	handleCheckAll() {
@@ -134,7 +168,7 @@ class AdminDatable extends Component {
 		let messages = this.state.messages;
 		let isEditingLocal = this.state.isEditingLocal;
 		let isEditingGlobal = this.state.isEditingGlobal;
-		let isEditing = isEditingLocal || isEditingGlobal;
+		let isEditing = this.state.isEditing;
 		let allChecked = this.state.allChecked
 
 		return (
@@ -151,23 +185,27 @@ class AdminDatable extends Component {
 					</div>
 
 				</div>
-				<table className="datatable">
-					<thead>
-						<tr>
-							<th><input className="admin-input" type="checkbox" checked={allChecked} onChange={() => this.handleCheckAll()}></input></th>
-							{headers.map(header =>
-								<th key={header}>
-									{header}
+				<div className="container-datatable">
+					<table className="datatable">
+						<thead>
+							<tr>
+								<th>
+									<input className="admin-input" type="checkbox" checked={allChecked} onChange={this.handleCheckAll}></input>
 								</th>
+								{headers.map(header =>
+									<th key={header}>
+										{header}
+									</th>
+								)}
+							</tr>
+						</thead>
+						<tbody>
+							{items.map(item =>
+								<AdminDatatableRow key={item[Object.keys(item)[0]]} resource={resource} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
 							)}
-						</tr>
-					</thead>
-					<tbody>
-						{items.map(item =>
-							<AdminDatatableRow key={item[Object.keys(item)[0]]} resource={resource} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
-						)}
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
 			</div>
 		);

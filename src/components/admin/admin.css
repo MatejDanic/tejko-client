@@ -18,6 +18,10 @@
 	text-align: right;
 }
 
+.container-datatable {
+	width: 100%;
+}
+
 .container-actions-left {
 	text-align: left;
 	width: 50%;
@@ -39,8 +43,8 @@
 }
 
 .datatable {
-	table-layout: fixed;
 	width: 100%;
+	table-layout: fixed;
 	text-align: center;
 	border-collapse: collapse;
 	font-size: large;
@@ -61,8 +65,6 @@
 	height: 100%;
 	white-space: nowrap;
 	overflow: auto;
-	padding: 0px;
-	margin: 0px;
 }
 
 .datatable th:first-child {
@@ -90,8 +92,8 @@
 }
 
 .admin-input {
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	font-size: large;
 	text-align: center;
 	border: none;
@@ -112,9 +114,8 @@
 	padding: auto;
 }
 
-.admin-input-checkbox {
-	padding: 0px;
-	margin: 0px;
+.admin-datatable-row-checkbox {
+	width: 30px;
 }
 
 .admin-item {
@@ -166,6 +167,25 @@
 
 	.container-actions-left {
 		display: inline-flex;
+	}
+
+	.container-datatable {
+		overflow: scroll;
+	}
+
+	.datatable {
+		width: max-content;
+		width: auto;
+	}
+
+	.datatable th {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.datatable td {
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 
 }

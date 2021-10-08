@@ -13,18 +13,12 @@ class AdminDataObject extends Component {
 			keys: []
 		};
 
-		this.handleLocalEdit = this.handleLocalEdit.bind(this);
 	}
 
 	componentDidMount() {
 		let object = this.props.object;
 		let keys = Object.keys(object);
 		this.setState({ object, keys });
-	}
-
-	handleLocalEdit() {
-		console.log("Object: Local Edit");
-		this.props.onLocalEdit();
 	}
 
 	render() {
@@ -41,7 +35,7 @@ class AdminDataObject extends Component {
 						<div className="data-header">
 							{key}:
 						</div>
-						<AdminDataElement element={object[key]} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />
+						<AdminDataElement element={object[key]} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.props.onLocalEdit} />
 					</div>
 				)}
 			</div >

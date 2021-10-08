@@ -17,8 +17,7 @@ class AdminData extends Component {
 			resource: this.props.resource,
 			id: this.props.match.params.id,
 			isEditingGlobal: false,
-			isEditingLocal: false,
-			dataLoaded: false
+			isEditingLocal: false
 		};
 
 		this.loadData = this.loadData.bind(this);
@@ -33,8 +32,14 @@ class AdminData extends Component {
 	componentDidMount() {
 		let resource = this.props.resource;
 		let id = this.props.match.params.id;
-		if (!this.state.dataLoaded) {
-			this.loadData(resource, id);
+		this.loadData(resource, id);
+	}
+
+	componentDidUpdate() {
+		let resource = this.state.resource;
+		if (resource !== this.props.resource) {
+			let resource = this.props.resource;
+			this.loadData(resource);
 		}
 	}
 
@@ -46,8 +51,7 @@ class AdminData extends Component {
 				for (let key in item) {
 					headers.push(key);
 				}
-				let dataLoaded = true
-				this.setState({ item, headers, dataLoaded }, () => {
+				this.setState({ resource, item, headers }, () => {
 					console.log("Data loaded:", item);
 				});
 			})
@@ -140,7 +144,7 @@ class AdminData extends Component {
 						<button className="button button-delete" onClick={this.handleDelete}>Delete</button>
 					</div>
 				</div>
-				<div className="admin-item">
+				<div className="container-element">
 					{item && <AdminDataElement element={item} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />}
 				</div>
 				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}

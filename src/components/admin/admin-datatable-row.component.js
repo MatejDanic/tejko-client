@@ -55,10 +55,10 @@ class AdminDatatableRow extends Component {
 
 		return (
 			<tr>
-				<td><input className="admin-input" type="checkbox" onChange={() => this.handleCheck()} value={checked} checked={checked}></input></td>
+				<td><input className="admin-datatable-row-checkbox" type="checkbox" onChange={this.handleCheck} value={checked} checked={checked}></input></td>
 				<td className="id" onClick={() => this.handleClick(item[headers[0]])}>{item[headers[0]]}</td>
 				{headers.slice(1).map(key =>
-					<AdminDatatableCell key={key} cell={item[key]} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={() => this.handleLocalEdit()} />
+					<AdminDatatableCell key={key} cell={item[key]} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />
 				)}
 			</tr>
 		);

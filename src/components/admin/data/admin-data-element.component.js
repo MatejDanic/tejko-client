@@ -21,7 +21,6 @@ class AdminDataElement extends Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.handleLocalEdit = this.handleLocalEdit.bind(this);
     }
 
     componentDidMount() {
@@ -33,42 +32,35 @@ class AdminDataElement extends Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.isEditingGlobal && !this.props.isEditingLocal && this.state.isEditing) {
+        if (this.state.isEditing && !this.props.isEditingGlobal && !this.props.isEditingLocal) {
             let isEditing = false;
             this.setState({ isEditing });
-        } else if (this.props.isEditingGlobal && !this.state.isEditing) {
+        } else if (!this.state.isEditing && this.props.isEditingGlobal) {
             let isEditing = true;
-            this.setState({ isEditing });
+            this.setState({ isEditing })
         }
     }
 
     handleClick() {
         if (!this.state.isEditing) {
-            console.log("Element: Click");
+            this.props.onLocalEdit()
             let isEditing = true;
-            this.setState({ isEditing }, () => {
-                this.props.onLocalEdit();
-            });
+            this.setState({ isEditing });
         }
-    }
-
-    handleLocalEdit() {
-        console.log("Element: Local Edit");
-        this.props.onLocalEdit();
     }
 
     render() {
         let element = this.state.element;
         let isEditing = this.state.isEditing;
-        let isEditingLocal = this.state.isEditingLocal;
-        let isEditingGlobal = this.state.isEditingGlobal;
+        let isEditingLocal = this.props.isEditingLocal;
+        let isEditingGlobal = this.props.isEditingGlobal;
 
         return (
             <div>
                 {(element instanceof Array) ?
                     <AdminDataArray array={element} /> :
                     element instanceof Object &&
-                    <AdminDataObject object={element} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />
+                    <AdminDataObject object={element} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.props.onLocalEdit} />
                 }
                 <div className="data-value" onClick={this.handleClick}>
                     {(typeof (element) === "string") &&
