@@ -29,16 +29,16 @@ class AdminDataObject extends Component {
 		let isEditingLocal = this.props.isEditingLocal;
 
 		return (
-			<div className="data-object">
+			<table className="data-object">
 				{keys.map(key =>
-					<div key={key}>
+					<tr key={key} className="data-object-row">
 						<div className="data-header">
 							{key}:
 						</div>
 						<AdminDataElement element={object[key]} isEditing={isEditing} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.props.onLocalEdit} />
-					</div>
+					</tr>
 				)}
-			</div >
+			</table >
 		);
 	}
 }

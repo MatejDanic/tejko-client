@@ -39,7 +39,7 @@
 	border: none;
 	border-radius: 10px;
 	color: white;
-	font-size: large;
+	font-size: medium;
 }
 
 .datatable {
@@ -165,16 +165,11 @@
 		margin: 0;
 	}
 
-	.container-actions-left {
-		display: inline-flex;
-	}
-
 	.container-datatable {
-		overflow: scroll;
+		overflow-x: scroll;
 	}
 
 	.datatable {
-		width: max-content;
 		width: auto;
 	}
 

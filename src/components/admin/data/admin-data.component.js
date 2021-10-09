@@ -69,26 +69,48 @@ class AdminData extends Component {
 
 	handleSave() {
 		let rows = document.getElementsByTagName("tr");
-		let requests = [];
+		let headers = this.state.headers;
+		let idRequestMap = {};
 		for (let i = 1; i < rows.length; i++) {
-			if (rows[i].children[0].firstChild.checked) {
-				let id = rows[i].children[1].firstElementChild.textContent;
-				let request = {};
-				request[id] = {};
-				for (let j = 1; j < this.state.headers.length; j++) {
-					if (rows[i].children[j + 1].firstChild.firstChild && rows[i].children[j + 1].firstChild.firstChild.type === "checkbox") {
-						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstChild.firstChild.checked;
-					} else if (rows[i].children[j + 1].firstElementChild.value) {
-						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.value;
-					} else if (rows[i].children[j + 1].firstElementChild.textContent) {
-						request[id][this.state.headers[j]] = rows[i].children[j + 1].firstElementChild.textContent;
+			let row = rows[i];
+			if (row.firstChild.firstChild.checked) {
+				let cells = row.children;
+				let id = cells[1].textContent;
+				idRequestMap[id] = {};
+				for (let j = 2; j < cells.length; j++) {
+					let input = cells[j].getElementsByTagName("input")[0];
+					if (input) {
+						let value = undefined;
+						if (input.type === "checkbox") {
+							value = input.checked;
+						} else if (input.type === "text") {
+							value = input.value;
+						}
+						if (value !== undefined) {
+							idRequestMap[id][headers[j - 1]] = value;
+						}
 					}
-
 				}
-				requests.push(request);
 			}
 		}
-		console.log(JSON.stringify(requests));
+		if (Object.keys(idRequestMap).length > 0) {
+			let resource = this.state.resource;
+			AdminService.updateItems(resource, JSON.stringify(idRequestMap))
+				.then(response => {
+					console.log(response);
+					this.loadData(resource);
+				})
+				.catch(response => {
+					if (response.type === "ERROR") {
+						let messages = [];
+						messages.push(response.subject);
+						messages.push(response.body);
+						this.togglePopup(messages);
+					} else {
+						console.error(response);
+					}
+				});
+		}
 	}
 
 	handleEdit() {
