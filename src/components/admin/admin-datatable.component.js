@@ -12,7 +12,7 @@ class AdminDatable extends Component {
 
 		this.state = {
 			items: [],
-			headers: [],
+			headers: undefined,
 			messages: [],
 			resource: this.props.resource,
 			isEditing: false,
@@ -187,7 +187,7 @@ class AdminDatable extends Component {
 				</div>
 				<div className="container-datatable">
 					<table className="datatable">
-						<thead>
+						{headers && <thead>
 							<tr>
 								<th>
 									<input className="admin-input" type="checkbox" checked={allChecked} onChange={this.handleCheckAll}></input>
@@ -198,7 +198,7 @@ class AdminDatable extends Component {
 									</th>
 								)}
 							</tr>
-						</thead>
+						</thead>}
 						<tbody>
 							{items.map(item =>
 								<AdminDatatableRow key={item[Object.keys(item)[0]]} resource={resource} item={item} headers={headers} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} allChecked={allChecked} onLocalEdit={() => this.handleLocalEdit()} />
