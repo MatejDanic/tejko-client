@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-// components
-import PopupConfirm from "../../popup/popup-confirm.component";
-// services
 import AuthService from "../../../services/auth.service";
 import FormService from "../../../services/form.service";
-// styles
 import "../../../constants/colors.css";
 import "./button.css";
 
@@ -14,9 +10,7 @@ export default class QuitButton extends Component {
         super();
         this.state = {
             currentUser: undefined,
-            showPopupConfirm: false
         }
-        this.togglePopupConfirm = this.togglePopupConfirm.bind(this);
         this.quit = this.quit.bind(this);
     }
 
@@ -25,14 +19,10 @@ export default class QuitButton extends Component {
         if (currentUser) this.setState({ currentUser });
     }
 
-    togglePopupConfirm() {
-        this.setState({ showPopupConfirm: !this.state.showPopupConfirm });
-    }
-
     render() {
         return (
-            <div className="form-button bg-lightpink restart" style={{ backgroundImage: 'url(/images/misc/logout.png)' }} onClick={this.togglePopupConfirm} >
-                {this.state.showPopupConfirm && <PopupConfirm text={["Jeste li sigurni da želite odustati od izazova?"]} onClose={this.togglePopupConfirm} onOk={this.quit} />}
+            <div className="form-button bg-lightpink restart" style={{ backgroundImage: 'url(/images/misc/logout.png)' }} >
+
             </div>
         )
     }

@@ -1,170 +1,116 @@
 .top-bar {
-	box-shadow: 10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1);
-	width: 100%;
-	height: 100%;
-	display: inline-flex;
-	overflow: hidden;
-	display: inline-flex;
-}
-
-.top-bar-left {
-	width: 66%;
-	text-align: left;
-}
-
-.top-bar-right {
-	width: 34%;
-	text-align: right;
-}
-
-.top-bar-element {
-	font-size: larger;
-	height: 100%;
-	padding-left: 2vw;
-	padding-right: 2vw;
-	display: inline-flex;
-	text-align: center;
-	align-items: center;
+	position: absolute;
+	display: flex;
 	justify-content: center;
-}
-
-.top-bar-element:hover {
-	cursor: pointer;
-}
-
-.container-side-bar {
-	height: 100%;
-	width: 15vw;
-}
-
-.side-bar {
-	box-shadow: 10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1);
-	height: 100%;
 	width: 100%;
-	text-align: right;
+	height: 50px;
+	top: 0;
+	background-color: var(--accent-primary);
+	box-shadow: 10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1);
+	z-index: 1;
 }
 
-.side-bar-mask {
-	visibility: hidden;
+.top-bar a {
+	color: var(--text-secondary);
+	padding: 15px 15px;
+	text-decoration: none;
+	background-color: var(--accent-primary);
+	font-size: 17px;
+	width: 80px;
+	text-align: center;
 }
 
-.side-bar-element {
-	font-size: large;
-	padding: 2vh;
-	display: block;
+.top-bar a:hover {
+	text-decoration: none;
+	background-color: var(--accent-secondary);
+	color: var(--text-secondary);
 }
 
-.button-side-bar {
-	box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.1);
-	padding: 0px;
-	margin: 0px;
-	width: 40px;
-	height: 40px;
-	background-color: #222;
-	color: white;
-	position: fixed;
-	font-size: large;
-	top: auto;
+.top-bar-section {
+	position: absolute;
+	display: flex;
+	height: 50px;
+}
+
+.top-bar-section-left {
 	left: 0;
-	border: none;
-	border-bottom-right-radius: 10px;
 }
 
-.button-side-bar:hover {
-	background-color: #333;
+.top-bar-section-middle {
+	width: 30%;
+	min-width: 300px;
 }
 
-@media (prefers-color-scheme: dark) {
+.top-bar-section-right {
+	right: 0;
+}
+
+.search-bar {
+	color: var(--text-primary);
+	background-color: var(--background-primary);
+	border: 1px solid var(--background-secondary);
+	box-shadow: none;
+	margin: 10px;
+	padding: 6px;
+	min-width: 100%;
+}
+
+.menu {
+	visibility: hidden;
+	position: absolute;
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	bottom: 0;
+	background-color: var(--accent-primary);
+	height: 8%;
+	z-index: 1;
+
+}
+
+.menu-element {
+	display: table-cell;
+}
+
+.menu a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: var(--text-secondary);
+	height: 100%;
+}
+
+.menu a:hover {
+	background-color: var(--accent-secondary);
+}
+
+@media screen and (max-width : 1200px) {
+
+	.top-bar-section {
+		overflow: hidden;
+		display: grid;
+	} 
+
+	.top-bar-section:hover {
+		overflow: visible;
+	}
+
+	.top-bar-section-middle {
+		width: 30%;	
+	}
+
+}
+
+@media screen and (max-width : 576px) {
+
 	.top-bar {
-		background-color: #333;
+		visibility: hidden;
 	}
 
-	.top-bar-element {
-		color: #fff;
-	}
-
-	.top-bar-element:hover {
-		background-color: #444;
-	}
-
-	.side-bar {
-		background-color: #999;
-	}
-
-	.side-bar-element {
-		color: #111;
-	}
-
-	.side-bar-element:hover {
-		color: #fff;
-	}
-}
-
-@media (prefers-color-scheme: light) {
-	.top-bar {
-		background-color: #ddd;
-	}
-
-	.top-bar-element {
-		color: #222;
-	}
-
-	.top-bar-element:hover {
-		background-color: #fff;
-	}
-
-	.side-bar {
-		background-color: #aaa;
-	}
-
-	.side-bar-element {
-		color: #222;
-	}
-
-	.side-bar-element:hover {
-		color: #fff;
-	}
-}
-
-@media screen and (max-width: 576px) {
-	.container-side-bar {
-		height: 100vh;
-		width: 100vw;
-		position: fixed;
-		display: inline-flex;
-	}
-
-	.side-bar {
-		height: 100%;
-		width: 40%;
-		text-align: right;
-	}
-
-	.top-bar-element {
-		font-size: small;
-	}
-
-	.button-side-bar {
-		border-top-right-radius: 10px;
-		border-bottom-right-radius: 0;
-		bottom: 0;
-		top: auto;
-		bottom: 6vh;
-	}
-
-	.side-bar-mask {
+	.menu {
 		visibility: visible;
-		background-color: #666;
-		opacity: 0.6;
-		height: 100%;
-		width: 60%;
 	}
 
-	.top-bar-right {
-		width: 50%;
-	}
-
-	.top-bar-left {
-		width: 50%;
-	}
 }
+

@@ -1,17 +1,10 @@
 import React, { Component } from "react";
-// components
 import ScoreList from "./score-list.component";
-import Popup from "../popup/popup.component";
-import PopupConfirm from "../popup/popup-confirm.component";
-// services
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
-// utils
 import DateUtil from "../../utils/date.util";
 import ScoreUtil from "../../utils/score.util";
-// constants
 import { dateFormatLong } from "../../constants/date-format";
-// styles
 import "./board.css";
 
 export default class User extends Component {
@@ -26,12 +19,8 @@ export default class User extends Component {
             user: "",
             totalScore: 0,
             highScore: 0,
-            showPopup: false,
-            showPopupConfirm: false,
             messages: []
         };
-        this.togglePopup = this.togglePopup.bind(this);
-        this.togglePopupConfirm = this.togglePopupConfirm.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
     }
 
@@ -64,7 +53,6 @@ export default class User extends Component {
                 let messages = [];
                 if (response.status && response.error) messages.push(response.status + " " + response.error);
                 if (response.message) messages.push(response.message);
-                this.togglePopup(messages);
             });
     }
 
@@ -73,28 +61,17 @@ export default class User extends Component {
     }
 
     deleteUser() {
-        this.togglePopupConfirm();
         UserService.deleteUser(this.props.match.params.userId)
             .then(response => {
                 let messages = [];
                 messages.push(response.message);
-                this.togglePopup(messages);
                 setTimeout(() => { this.props.history.push("/users") }, 1000);
             })
             .catch(response => {
                 let messages = [];
                 if (response.status && response.error) messages.push(response.status + " " + response.error);
                 if (response.message) messages.push(response.message);
-                this.togglePopup(messages);
             });
-    }
-
-    togglePopup(messages) {
-        this.setState({ showPopup: !this.state.showPopup, messages });
-    }
-
-    togglePopupConfirm() {
-        this.setState({ showPopupConfirm: !this.state.showPopupConfirm });
     }
 
     render() {
@@ -130,7 +107,7 @@ export default class User extends Component {
                     </p>
                     {currentUser && currentUser.roles && currentUser.roles.includes("ADMIN") && !userIsAdmin &&
                         <button className="button-delete" style={{ backgroundImage: "url(/images/misc/trash_open.png)" }}
-                            onClick={this.togglePopupConfirm} />}
+                        />}
                     {user && currentUser && currentUser.id != user.id &&
                         <button className="button-challenge" style={{ backgroundImage: "url(/images/misc/challenge.png)" }}
                             onClick={() => { this.props.onChallenge(user.username) }} />}
@@ -141,8 +118,6 @@ export default class User extends Component {
                             <ScoreList username={user.username} scores={user.scores} history={history}></ScoreList>
                         </div>)}
                 </div>
-                {this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
-                {this.state.showPopupConfirm && <PopupConfirm text={["Jeste li sigurni da želite izbrisati ovog korisnika?"]} onOk={this.deleteUser} onClose={this.togglePopupConfirm} />}
             </div>
         );
     }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ScoreService from "../../../services/score.service";
-import Popup from "../../popup/popup.component";
 import "./scoreboard.css";
 import "../../../constants/colors.css";
 
@@ -11,10 +10,8 @@ export default class Scoreboard extends Component {
 		this.state = {
 			scores: [],
 			scoresToDisplay: [],
-			scoreboard: [],
-			showPopup: false
+			scoreboard: []
 		}
-		this.togglePopup = this.togglePopup.bind(this);
 	}
 
 	componentDidMount() {
@@ -33,13 +30,8 @@ export default class Scoreboard extends Component {
 				let messages = [];
 				if (response.status && response.error) messages.push(response.status + " " + response.error);
 				if (response.message) messages.push(response.message);
-				this.togglePopup(messages);
 			}
 			);
-	}
-
-	togglePopup(scoreboard) {
-		this.setState({ showPopup: !this.state.showPopup, scoreboard });
 	}
 
 	render() {
@@ -52,7 +44,6 @@ export default class Scoreboard extends Component {
 						<li key={score}>{score}</li>) :
 						<div className="scoreboard-empty">---<br />---<br />---<br />---<br />---</div>}
 				</ul>
-				{this.state.showPopup && <Popup text={scoreboard} onOk={this.togglePopup} />}
 			</div>
 		)
 	}
@@ -71,7 +62,5 @@ export default class Scoreboard extends Component {
 		} else {
 			scoreboard.push("Nema postignutih rezultata u ovom tjednu");
 		}
-
-		this.togglePopup(scoreboard);
 	}
 }

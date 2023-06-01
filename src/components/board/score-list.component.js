@@ -1,17 +1,11 @@
 
 
 import React, { Component } from "react";
-// components
-import Popup from "../popup/popup.component";
-// services
 import ScoreService from "../../services/score.service";
-// utils
 import DateUtil from "../../utils/date.util";
 import { pagination } from "../../utils/pagination.util";
 import { sortTable } from "../../utils/sort.util";
-// constants
 import { dateFormatMedium } from "../../constants/date-format";
-// styles
 import "./board.css";
 
 export default class ScoreList extends Component {
@@ -20,10 +14,8 @@ export default class ScoreList extends Component {
 
         this.state = {
             scores: [],
-            showPopup: false,
             messages: []
         };
-        this.togglePopup = this.togglePopup.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +35,6 @@ export default class ScoreList extends Component {
                     let messages = [];
                     if (response.status && response.error) messages.push(response.status + " " + response.error);
                     if (response.message) messages.push(response.message);
-                    this.togglePopup(messages);
                 });
         } else {
             let scores = [];
@@ -56,10 +47,6 @@ export default class ScoreList extends Component {
             });
         }
         document.getElementById("current-page").label = 1;
-    }
-
-    togglePopup(messages) {
-        this.setState({ showPopup: !this.state.showPopup, messages });
     }
 
     render() {
@@ -91,7 +78,6 @@ export default class ScoreList extends Component {
                     </div>
                     <div id="current-page" />
                 </div>
-                {this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
             </div>
         );
     }

@@ -27,7 +27,12 @@ class AdminDatatableCell extends Component {
 
 		return (
 			<td>
-				<AdminDataElement element={cell} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.props.onLocalEdit} />
+				<AdminDataElement
+					element={cell}
+					isEditingGlobal={isEditingGlobal}
+					isEditingLocal={isEditingLocal}
+					onLocalEdit={this.props.onLocalEdit}
+				/>
 			</td>
 		);
 	}

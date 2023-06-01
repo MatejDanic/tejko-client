@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import Popup from "../../popup/popup.component";
 import AdminService from "../../../services/admin.service";
 import AdminDataElement from "./admin-data-element.component";
 import "./admin-data.css";
@@ -21,7 +20,6 @@ class AdminData extends Component {
 		};
 
 		this.loadData = this.loadData.bind(this);
-		this.togglePopup = this.togglePopup.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
 		this.handleCancelEdit = this.handleCancelEdit.bind(this);
@@ -60,7 +58,6 @@ class AdminData extends Component {
 					let messages = [];
 					messages.push(response.subject);
 					messages.push(response.body);
-					this.togglePopup(messages);
 				} else {
 					console.error(response);
 				}
@@ -105,7 +102,6 @@ class AdminData extends Component {
 						let messages = [];
 						messages.push(response.subject);
 						messages.push(response.body);
-						this.togglePopup(messages);
 					} else {
 						console.error(response);
 					}
@@ -142,13 +138,8 @@ class AdminData extends Component {
 		}
 	}
 
-	togglePopup(messages) {
-		this.setState({ showPopup: !this.state.showPopup, messages });
-	}
-
 	render() {
 		let item = this.state.item;
-		let messages = this.state.messages;
 		let isEditingLocal = this.state.isEditingLocal;
 		let isEditingGlobal = this.state.isEditingGlobal;
 		let isEditing = isEditingLocal || isEditingGlobal;
@@ -169,8 +160,6 @@ class AdminData extends Component {
 				<div className="container-element">
 					{item && <AdminDataElement element={item} isEditingGlobal={isEditingGlobal} isEditingLocal={isEditingLocal} onLocalEdit={this.handleLocalEdit} />}
 				</div>
-				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
-
 			</div >
 		);
 	}

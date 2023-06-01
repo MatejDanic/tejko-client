@@ -1,29 +1,64 @@
-.container {
-	display: inline-flex;
-	position: relative;
-	width: 100%;
-	height: 100%;
+
+
+.side-bar {
+	transition: all .5s;
+	position: fixed;
+	height: 100vh;
+	z-index: 0;
+	background-color: var(--background-secondary);
+	padding-left: 20px;
+	margin-top: 50px;
+	left: 0;
+	top: 0;
 }
 
-.container-content {
-	overflow: hidden;
-	width: 100%;
-	margin: 5%;
+.side-bar-visible {
+	width: 20%;
+}
+
+.side-bar-hidden {
+	padding-left: 20px;
+	width: 0;
+}
+
+.side-bar-hidden .side-bar-element {
+	display: none;
+}
+
+.side-bar a {
+	text-decoration: none;
+	color: var(--accent-primary);
+}
+
+.side-bar a:hover {
+	text-decoration: none;
+	color: var(--accent-secondary);
+}
+
+.side-bar-button {
+	position: absolute;
+	right: -20px;
+	top: 50px;
+}
+
+.side-bar-element {
+	padding-top: 30px;
+}
+
+.datatable {
+	min-width: 40%;	
+	border: 1px solid red;
+}
+
+.container-table {
+	border: 1px solid black;
 }
 
 .container-actions {
 	display: flex;
-	padding: 2%;
-	margin: 2%;
-	text-align: right;
-}
-
-.container-datatable {
-	width: 100%;
 }
 
 .container-actions-left {
-	text-align: left;
 	width: 50%;
 }
 
@@ -32,155 +67,43 @@
 	width: 50%;
 }
 
-.button {
-	box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.1);
-	padding: 10px;
-	margin: 5px;
-	border: none;
-	border-radius: 10px;
-	color: white;
-	font-size: medium;
+.button-save {
+	background-color: green;
 }
 
-.datatable {
-	width: 100%;
-	table-layout: fixed;
-	text-align: center;
-	border-collapse: collapse;
-	font-size: large;
+.button-save:hover {
+	background-color: darkgreen;
 }
 
-.datatable th {
-	text-transform: capitalize;
-	font-weight: bold;
+.button-edit {
+	background-color: gold;
 }
 
-.datatable tr {
-	height: 5vh;
-	max-height: 5vh;
-	min-height: 5vh;
+.button-edit:hover {
+	background-color: goldenrod;
 }
 
-.datatable td {
-	height: 100%;
-	white-space: nowrap;
-	overflow: auto;
+.button-delete {
+	background-color: indianred;
 }
 
-.datatable th:first-child {
-	border: none;
+.button-delete:hover {
+	background-color: darkred;
 }
 
-.datatable th:last-child {
-	border-top-right-radius: 10px;
-	border-right: 0;
-}
+@media screen and (max-width : 576px) {
 
-.datatable tr th:first-child {
-	width: 10%;
-}
-
-.datatable tbody tr:hover {
-	cursor: pointer;
-}
-
-.container-admin-input {
-	display: flex;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-}
-
-.admin-input {
-	padding: 0;
-	margin: 0;
-	font-size: large;
-	text-align: center;
-	border: none;
-	outline: none;
-	font-weight: normal;
-}
-
-.datatable .admin-input {
-	height: 5vh;
-}
-
-.datatable td .admin-input {
-	background-color: white;
-}
-
-.datatable tr td:first-child {
-	margin: auto;
-	padding: auto;
-}
-
-.admin-datatable-row-checkbox {
-	width: 30px;
-}
-
-.admin-item {
-	width: 100%;
-	text-align: left;
-	font-size: large;
-}
-
-@media (prefers-color-scheme: dark) {
-	.button {
-		color: #fff;
+	.side-bar {
+		top: 0;
+		margin-top: 0;
+		transition: all .5s;
 	}
 
-	.button-save {
-		background-color: #3e7742;
-	}
-
-	.button-save:hover {
-		background-color: darkgreen;
-	}
-
-	.button-delete {
-		background-color: rgb(131, 56, 56);
-	}
-
-	.button-delete:hover {
-		background-color: darkred;
-	}
-
-	.button-edit {
-		background-color: rgb(141, 106, 19);
-	}
-
-	.button-edit:hover {
-		background-color: rgb(126, 92, 7);
-	}
-
-	.datatable th {
-		border-bottom: 1px solid #fff;
-	}
-}
-
-@media screen and (max-width: 576px) {
-	.container-actions {
-		padding-left: 0;
-		padding-right: 0;
-		margin: 0;
-	}
-
-	.container-datatable {
-		overflow-x: scroll;
-	}
-
-	.datatable {
-		width: auto;
-	}
-
-	.datatable th {
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-
-	.datatable td {
-		padding-left: 10px;
-		padding-right: 10px;
+	.side-bar-visible {
+		top: 0;
+		margin-top: 0;
+		width: 40%;
+		transition: all .5s;
 	}
 
 }

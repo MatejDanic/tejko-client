@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import AuthService from "../../services/auth.service";
-import Popup from "../popup/popup.component";
 import "./authentication.css";
 
 class Register extends Component {
@@ -12,15 +12,13 @@ class Register extends Component {
 			username: "",
 			password: "",
 			repeatPassword: "",
-			successful: false,
-			messages: []
+			successful: false
 		};
 
 		this.handleRegister = this.handleRegister.bind(this);
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
 		this.handleChangePassword = this.handleChangePassword.bind(this);
 		this.onChangeRepeatPassword = this.onChangeRepeatPassword.bind(this);
-		this.togglePopup = this.togglePopup.bind(this);
 	}
 
 	handleChangeUsername(event) {
@@ -39,10 +37,6 @@ class Register extends Component {
 		this.setState({
 			repeatPassword: event.target.value
 		});
-	}
-
-	togglePopup(messages) {
-		this.setState({ showPopup: !this.state.showPopup, messages });
 	}
 
 	handleRegister() {
@@ -69,7 +63,6 @@ class Register extends Component {
 						let messages = [];
 						messages.push(response.subject);
 						messages.push(response.body);
-						this.togglePopup(messages);
 						setTimeout(() => { this.props.history.push("/login") }, 1000);
 					} else {
 						console.log(response);
@@ -80,13 +73,10 @@ class Register extends Component {
 						let messages = [];
 						messages.push(response.subject);
 						messages.push(response.body);
-						this.togglePopup(messages);
 					} else {
 						console.error(response);
 					}
 				});
-		} else {
-			this.togglePopup(messages);
 		}
 	}
 
@@ -97,33 +87,13 @@ class Register extends Component {
 		let messages = this.state.messages;
 		return (
 			<div className="window">
-				<div className="window-inner">
-					<div className="window-top">
-						<div>
-							<div>Korisničko ime</div>
-							<input type="text" placeholder="Unesite korisničko ime" name="username" id="username" autoComplete="username" onChange={(event) => this.handleChangeUsername(event)} value={username} />
-						</div>
-						<div>
-							<div>Lozinka</div>
-							<input type="password" placeholder="Unesite lozinku" name="password" id="password" onChange={this.handleChangePassword} value={password} />
-						</div>
-						<div>
-							<div>Ponovi lozinku</div>
-							<input type="password" placeholder="Unesite lozinku" name="repeatPassword" id="repeatPassword" onChange={this.onChangeRepeatPassword} value={repeatPassword} />
-						</div>
-					</div>
-					<button className="window-button-primary window-button-primary-register" onClick={this.handleRegister}>Register</button>
 
-					<div className="window-bottom">
-						<div>
-							Imate račun?
-						</div>
-						<div>
-							<button className="window-button-secondary window-button-secondary-register" onClick={() => this.props.history.push("/login")}>Login</button>
-						</div>
-					</div>
-				</div>
-				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
+				<input type="text" placeholder="username" name="username" id="username" autoComplete="username" onChange={(event) => this.handleChangeUsername(event)} value={username} />
+				<input type="password" placeholder="********" name="password" id="password" onChange={this.handleChangePassword} value={password} />
+				<div className="repeat-password">Repeat Password</div>
+				<input type="password" placeholder="********" name="repeatPassword" id="repeatPassword" onChange={this.onChangeRepeatPassword} value={repeatPassword} />
+				<button onClick={this.handleRegister}>Register</button>
+				<Link to="/login" className="question">Already have an account?</Link>
 			</div>
 		);
 	}

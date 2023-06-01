@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-// components
-import Popup from "../../popup/popup.component";
-// styles
 import "../../../constants/colors.css";
 import "./label.css";
 
@@ -10,18 +7,7 @@ export default class Label extends Component {
     constructor() {
         super();
         this.state = {
-            messages: [],
-            showPopup: false
-        }
-        this.togglePopup = this.togglePopup.bind(this);
-    }
-
-    togglePopup() {
-        if (!this.props.labelClass.includes("number")) {
-            let messages = [];
-            let display = this.props.number == null ? this.props.value : this.props.number;
-            messages.push(this.getInfoMessage(display, this.props.imgUrl));
-            this.setState({ showPopup: !this.state.showPopup, messages });
+            messages: []
         }
     }
 
@@ -29,9 +15,7 @@ export default class Label extends Component {
         let messages = this.state.messages;
         let display = this.props.number == null ? this.props.value : this.props.number;
         return (
-            <div onClick={this.togglePopup} className={this.props.labelClass} style={{ backgroundImage: 'url(' + this.props.imgUrl + ')' }}>
-                {display}
-                {this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
+            <div className={this.props.labelClass} style={{ backgroundImage: 'url(' + this.props.imgUrl + ')' }}>
             </div>
         )
     }

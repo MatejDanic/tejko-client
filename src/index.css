@@ -1,9 +1,26 @@
 body {
-	margin: 0;
 	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+:root {
+	--background-primary: #EEEEEE;
+	--background-secondary: #BBBBBB;
+	--text-primary: #000000;
+	--text-secondary: #EEEEEE;
+	--accent-primary: darkslategray;
+	--accent-secondary: seagreen;
+	--link-primary: navy;
+	--link-secondary: darkgoldenrod;
+}
+
+[data-theme="dark"] {
+	--background-primary: #222222;
+	--background-secondary: #444444;
+	--text-primary: #FFFFFF;
+	--text-secondary: #FFFFFF;
+	--accent-primary: firebrick;
+	--accent-secondary: indianred;
+	--link-primary: skyblue;
+	--link-secondary: navy;
 }

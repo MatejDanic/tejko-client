@@ -1,53 +1,41 @@
-import React, { Component } from "react";
-// services
-import AuthService from "../../services/auth.service";
-// styles
-import "./navigation.css";
+import {Component} from "react"
+import {Link} from "react-router-dom"
+import "./navigation.css"
 
 export default class Menu extends Component {
+	constructor(props) {
+		super(props)
+		this.handleLogout = this.handleLogout.bind(this)
+	}
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentUser: undefined
-        };
-    }
+	handleLogout() {
+		this.props.onLogout()
+		this.props.history.push("/login")
+	}
 
-    componentDidMount() {
-        let currentUser = AuthService.getCurrentUser();
-        if (currentUser) this.setState({ currentUser });
-    }
+	render() {
+		let currentUser = this.props.currentUser
+		return (
+			<div className="menu">
+				<div className="menu-element">
+					<Link to="/">Tejko</Link>
+				</div>
 
-    componentDidUpdate() {
-        let currentUser = AuthService.getCurrentUser();
-        if (!this.state.currentUser && AuthService.getCurrentUser() || this.state.currentUser && !AuthService.getCurrentUser()) this.setState({ currentUser });
-    }
+				<div className="menu-element">
+					{currentUser && currentUser.roles && currentUser.roles.includes("ADMIN") ? (
+						<Link to="/admin">Admin</Link>
+					) : (
+						<div />
+					)}
+				</div>
 
-    render() {
-        let currentUser = this.state.currentUser;
-        let showMenu = this.props.showMenu;
-        let history = this.props.history;
-        let gameMounted = this.props.gameMounted;
-        let menuClass = gameMounted ? "menu-relative" : "menu-fixed";
-        let volume = this.props.preference.volume;
-        return (
-            <div>
-                {window.location.pathname === "/challenge" ? <div /> :
-                ((!gameMounted || showMenu) &&
-                    <div className="front">
-                        {gameMounted && <div className="mask" onClick={this.props.onToggleMenu} />}
-                        {gameMounted && <div className="button-preference" onClick={this.props.onChangeVolume} style={{ backgroundImage: "url(/images/misc/volume_" + volume + ".png)" }} />}
-                        {gameMounted && <div className="button-chat" onClick={() => history.push("/chat")} style={{ backgroundImage: "url(/images/misc/chat.png)" }} />}
-                        <div className={"menu " + menuClass}>
-                            <div className="menu-element" onClick={() => history.push("/")} style={{ backgroundImage: 'url(/images/misc/dice.png)' }}><div className="menu-element-text">Jamb</div></div>
-                            <div className="menu-element" onClick={() => history.push("/users")} style={{ backgroundImage: 'url(/images/misc/users.png)' }}><div className="menu-element-text">Igrači</div></div>
-                            <div className="menu-element" onClick={() => history.push("/scores")} style={{ backgroundImage: 'url(/images/misc/scores.png)' }}><div className="menu-element-text">Rezultati</div></div>
-                            {currentUser ?
-                                (<div className="menu-element" onClick={this.props.onLogout} href="/login" style={{ backgroundImage: 'url(/images/misc/logout.png)' }}><div className="menu-element-text">Odjava</div></div>) :
-                                (<div className="menu-element" onClick={() => history.push("/login")} style={{ backgroundImage: 'url(/images/misc/login.png)' }}><div className="menu-element-text">Prijava</div></div>)}
-                        </div>
-                    </div>)}
-            </div>
-        );
-    }
+				<div className="menu-element">
+					{currentUser ? <Link to="/profile">{currentUser.username}</Link> : <Link to="/login">login</Link>}
+				</div>
+				<div className="menu-element">
+					<Link to="/settings">Settings</Link>
+				</div>
+			</div>
+		)
+	}
 }

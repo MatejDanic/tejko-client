@@ -4,9 +4,7 @@ import { withRouter } from "react-router";
 class AdminDashboard extends Component {
 
 	render() {
-		return (
-			<div>Dashboard</div>
-		);
+		return <div>Dashboard</div>
 	}
 
 }

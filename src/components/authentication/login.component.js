@@ -1,27 +1,21 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { withRouter } from "react-router"
-// components
-import Popup from "../popup/popup.component";
-// services
+import { Link } from "react-router-dom";
 import AuthService from "../../services/auth.service";
-// styles
 import "./authentication.css";
-// export default withRouter(connect(mapStateToProps, matchDispatchToProps)(class Login extends Com) {
-class Login extends Component {
+
+class Login extends PureComponent {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			username: "",
-			password: "",
-			messages: [],
-			showPopup: false
+			password: ""
 		};
 
 		this.handleLogin = this.handleLogin.bind(this);
 		this.handleChangeUsername = this.handleChangeUsername.bind(this);
 		this.handleChangePassword = this.handleChangePassword.bind(this);
-		this.togglePopup = this.togglePopup.bind(this);
 	}
 
 	handleChangeUsername(event) {
@@ -30,10 +24,6 @@ class Login extends Component {
 
 	handleChangePassword(event) {
 		this.setState({ password: event.target.value });
-	}
-
-	togglePopup(messages) {
-		this.setState({ showPopup: !this.state.showPopup, messages });
 	}
 
 	validateForm(username, password) {
@@ -71,48 +61,24 @@ class Login extends Component {
 				})
 				.catch(response => {
 					if (response.type === "ERROR") {
-						let messages = [];
-						messages.push(response.subject);
-						messages.push(response.body);
-						this.togglePopup(messages);
+						let toast = { title: "Error", message: response.content, type: "error" };
+						this.props.onAddToast(toast);
 					} else {
 						console.error(response);
 					}
 				});
-		} else {
-			this.togglePopup(messages);
 		}
 	}
 
 	render() {
 		let username = this.state.username;
 		let password = this.state.password;
-		let messages = this.state.messages;
 		return (
 			<div className="window">
-				<div className="window-inner">
-					<div className="window-top">
-						<div>
-							<div>Korisničko ime</div>
-							<input type="text" placeholder="Unesite korisničko ime" name="username" id="username" autoComplete="username" onChange={this.handleChangeUsername} value={username} />
-						</div>
-						<div>
-							<div>Lozinka</div>
-							<input type="password" placeholder="Unesite lozinku" name="password" id="password" autoComplete="current-password" onChange={this.handleChangePassword} value={password} />
-						</div>
-					</div>
-					<button className="window-button-primary window-button-primary-login" onClick={this.handleLogin}>Login</button>
-
-					<div className="window-bottom">
-						<div>
-							Nemate račun?
-						</div>
-						<div>
-							<button className="window-button-secondary window-button-secondary-login" onClick={() => this.props.history.push("/register")}>Registracija</button>
-						</div>
-					</div>
-				</div>
-				{this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
+				<input type="text" placeholder="username" name="username" id="username" autoComplete="username" onChange={this.handleChangeUsername} value={username} />
+				<input type="password" placeholder="********" name="password" id="password" autoComplete="current-password" onChange={this.handleChangePassword} value={password} />
+				<button onClick={this.handleLogin}>Log In</button>
+				<Link to="/register" className="question">Don't have an account?</Link>
 			</div >
 		);
 	}

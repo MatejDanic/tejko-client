@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// components
 import DiceRack from "../dice/dice-rack.component";
 import Column from "../column/column.component";
 import Label from "../label/label.component";
@@ -7,17 +6,13 @@ import Scoreboard from "../scoreboard/scoreboard.component";
 import RollDiceButton from "../button/roll-dice-button.component";
 import QuitButton from "../button/quit-button.component";
 import InfoButton from "../button/info-button.component";
-import Popup from "../../popup/popup.component";
-// services
 import AuthService from "../../../services/auth.service";
 import FormService from "../../../services/form.service";
 import ScoreService from "../../../services/score.service";
-// utilities
 import ScoreUtil from "../../../utils/score.util";
-// constants
-import { NUMBERSUM_BONUS, NUMBERSUM_BONUS_THRESHOLD } from "../../../constants/game-constants";
-// styles
 import "./form.css";
+
+import { NUMBERSUM_BONUS, NUMBERSUM_BONUS_THRESHOLD } from "../../../constants/game-constants";
 
 export default class FormChallenge extends Component {
     _isMounted = false;
@@ -32,7 +27,6 @@ export default class FormChallenge extends Component {
             announcementRequired: false,
             rollDisabled: false,
             diceDisabled: true,
-            showPopup: false,
             messages: [],
         }
         this.initializeForm = this.initializeForm.bind(this);
@@ -41,7 +35,6 @@ export default class FormChallenge extends Component {
         this.handleRollDice = this.handleRollDice.bind(this);
         this.handleToggleDice = this.handleToggleDice.bind(this);
         this.startRollAnimation = this.startRollAnimation.bind(this);
-        this.togglePopup = this.togglePopup.bind(this);
     }
 
     setMounted(mounted) {
@@ -66,10 +59,6 @@ export default class FormChallenge extends Component {
     componentWillUnmount() {
         this.props.onResetChallengeStatus();
         this.setMounted(false);
-    }
-
-    togglePopup(messages) {
-        this.setState({ showPopup: !this.state.showPopup, messages });
     }
 
     initializeSums(form) {
@@ -167,7 +156,6 @@ export default class FormChallenge extends Component {
                     let messages = [];
                     if (response.status && response.error) messages.push(response.status + " " + response.error);
                     if (response.message) messages.push(response.message);
-                    this.togglePopup(messages);
                 }
                 );
         } else {
@@ -303,7 +291,6 @@ export default class FormChallenge extends Component {
                     let messages = [];
                     if (response.status && response.error) messages.push(response.status + " " + response.error);
                     if (response.message) messages.push(response.message);
-                    this.togglePopup(messages);
                 }
                 );
         } else {
@@ -333,7 +320,6 @@ export default class FormChallenge extends Component {
                     let messages = [];
                     if (response.status && response.error) messages.push(response.status + " " + response.error);
                     if (response.message) messages.push(response.message);
-                    this.togglePopup(messages);
                 }
                 );
         } else {
@@ -504,7 +490,6 @@ export default class FormChallenge extends Component {
                         </div>)}
                     </ div>
                 </div>}
-                {this.state.showPopup && <Popup text={messages} onOk={this.togglePopup} />}
             </div>
         )
     }
@@ -513,7 +498,7 @@ export default class FormChallenge extends Component {
         let trumpets = new Audio("/sounds/misc/trumpets.mp3");
         trumpets.volume = this.props.preference.volume / 3;
         if (trumpets.volume > 0) trumpets.play();
-        this.togglePopup(["Čestitamo, vaš ukupni rezultat je ", this.state.sums["finalSum"]]);
+        let a = ["Čestitamo, vaš ukupni rezultat je ", this.state.sums["finalSum"]];
         this.props.onSendMessage("Score", this.state.sums["finalSum"]);
         this.props.onEndGame(this.state.sums["finalSum"]);
     }
@@ -527,7 +512,6 @@ export default class FormChallenge extends Component {
                 let messages = [];
                 if (response.status && response.error) messages.push(response.status + " " + response.error);
                 if (response.message) messages.push(response.message);
-                this.togglePopup(messages);
             });
         return "";
     }
